@@ -1,7 +1,8 @@
 import React from 'react';
 
 //Components
-import PracticeIndicators from './PracticeIndicators';
+import PracticeIndicators from './Typing/PracticeIndicators';
+import PracticeField from './Typing/PracticeField';
 
 //MUI
 import { makeStyles } from '@material-ui/core';
@@ -23,7 +24,7 @@ const Home = (props) => {
   return (
     <div className={classes.root}>
       <section className={classes.practice_layout}>
-        <PracticeIndicators />
+        {/* <PracticeIndicators /> */}
 
       </section>
     </div>

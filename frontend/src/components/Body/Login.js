@@ -20,7 +20,6 @@ const LoginForm = (props) => {
       }
     );
     history.replace('/');
-
   };
 
   return (
