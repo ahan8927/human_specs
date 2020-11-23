@@ -60,9 +60,16 @@ export const restoreUser = () => async dispatch => {
 };
 
 export const logoutUser = () => async dispatch => {
-  const response = await fetch('/api/session', {
-    method: 'DELETE',
-  });
-  dispatch(removeUser());
-  return response;
+  let res
+  console.log('attempting logout')
+  try {
+    res = await fetch('/api/session', {
+      method: 'DELETE',
+    });
+    (res.ok) && dispatch(removeUser());
+    console.log('logged out!')
+  } catch (e) {
+    console.error(e)
+  }
+  // return res;
 }

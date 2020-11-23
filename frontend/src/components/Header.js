@@ -1,9 +1,18 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
+//Components
+import { AuthContext } from '../context/Context';
+import LoginForm from './Header/LoginForm';
+import SignupForm from './Header/SignupForm';
+import Settings from './Header/Settings';
+import Dashboard from './Header/Dashboard';
+import Help from './Header/Help';
+
 //Mui
 import { makeStyles, Typography, IconButton, Button } from '@material-ui/core';
+import Dialog from '@material-ui/core/Dialog';
 
 //Icons
 import PersonIcon from '@material-ui/icons/Person';
@@ -21,47 +30,51 @@ const useStyles = makeStyles((theme) => ({
       borderRadius: '.5rem',
       padding: '.5rem'
     }
+  },
+  dialog: {
+    width: 'auto',
+    height: 'auto',
   }
 }));
+
+const getParams = () => {
+  return window.location.pathname.slice(1)
+}
 
 const Header = () => {
   const classes = useStyles();
   const history = useHistory();
-  const loadedUser = useSelector(state => state.session.user)
+  const loadedUser = useSelector(state => state.session.user);
+  const { authDialog, setAuthDialog } = useContext(AuthContext);
 
-  const [isLoaded, setIsLoaded] = useState(false);
   const [user, setUser] = useState()
+  const [whichDialog, setWhichDialog] = useState('');
+  const [params, setParams] = useState(getParams());
 
   useEffect(() => {
-    setIsLoaded(true);
-    setUser(loadedUser);
+    (JSON.stringify(loadedUser) === '{}') ? setUser(null) : setUser(loadedUser)
   }, [loadedUser])
 
-  const getParams = () => {
-    return window.location.pathname.slice(1)
-  }
-  const [params, setParams] = useState(getParams())
+
 
   const navs = [
     {
       title: 'Dashboard',
       redirect: false,
-      path: '/dashboard',
+      path: 'dashboard',
       icon: <DashboardIcon />
     },
     {
       title: 'Help',
       redirect: false,
-      path: '/help',
+      path: 'help',
       icon: <HelpOutlineIcon />
-    },
-    {
-      title: 'Profile',
-      redirect: true,
-      path: '/profile',
-      icon: <PersonIcon />
     }
   ]
+
+  const handleClose = () => {
+    setAuthDialog(false);
+  }
 
   const handleNavClick = (path) => {
     history.push(path)
@@ -69,60 +82,80 @@ const Header = () => {
   }
 
   const handleMenuClick = (path) => {
-    console.log(path)
+    setWhichDialog(path)
+    setAuthDialog(true)
   }
 
-  return isLoaded && (
-    <div className={'navBar_root'}>
-      <div className={'navBar_left'}>
-        <Button >
-          <Typography> human_{(params) ? params : 'specs'}</Typography>
-        </Button>
-      </div>
-      <div className={'navBar_middle'}>
-        <div className={'navBar_iconContainer'}>
-          {navs.map((navItem) => (
-            <IconButton
-              className={classes.iconButton}
-              key={navItem.title}
-              title={navItem.title}
-              onClick={() => {
-                (navItem.redirect) ?
-                  handleNavClick(navItem.path) :
-                  handleMenuClick(navItem.path)
-              }}
-            >
-              {navItem.icon}
-            </IconButton>
-          ))}
-          <Button
-            className={classes.iconButton}
-            title={(user) ? 'Profile' : 'Login'}
-            onClick={() => {
-              (user) ?
-                handleNavClick('/profile') :
-                handleMenuClick('/login')
-            }}
-          >
-            {(user) ? user.username : 'Login'}
+  const renderDialog = (dialog) => {
+    switch (dialog) {
+      case 'login':
+        return <LoginForm whichDialog={whichDialog} setWhichDialog={setWhichDialog} />
+      case 'signup':
+        return <SignupForm />
+      case 'settings':
+        return <Settings getParams={() => getParams()} user={user} setParams={(path) => setParams(path)} />;
+      case 'dashboard':
+        return <Dashboard getParams={() => getParams()} setParams={(path) => setParams(path)} />
+      case 'help':
+        return <Help />
+      default:
+        return;
+    }
+  }
+
+  return (
+    <>
+      <div className={'navBar_root'}>
+
+        {/* LEFT */}
+        <div className={'navBar_left'}>
+          {/* TODO: history.push('/home') */}
+          <Button >
+            <Typography>human_{(params) ? params : 'specs'}</Typography>
           </Button>
         </div>
-      </div>
-      <div className={'navBar_right'}>
-        <div className={'navBar_iconContainer'}>
-          <div className={'navBar_iconWrapper'}>
-            <Typography>{(user) ? user.username : 'login'}</Typography>
+
+        {/* MIDDLE */}
+        <div className={'navBar_middle'}>
+          <div className={'navBar_iconContainer'}>
+            {navs.map((navItem) => (
+              <IconButton
+                className={classes.iconButton}
+                key={navItem.title}
+                title={navItem.title}
+                onClick={() => handleMenuClick(navItem.path)}
+              >
+                {navItem.icon}
+              </IconButton>
+            ))}
+            <Button
+              className={classes.iconButton}
+              title={(user) ? 'Profile' : 'Login'}
+              startIcon={<PersonIcon />}
+              onClick={() => (user ? handleNavClick('/profile') : handleMenuClick('login'))}
+            >
+              {(user) ? `${user.username}` : 'Login'}
+            </Button>
           </div>
-          <IconButton
-            className={classes.iconButton}
-            title={'settings'}
-            onClick={() => handleMenuClick('settings')}
-          >
-            <SettingsIcon />
-          </IconButton>
         </div>
-      </div>
-    </div >
+
+        {/* RIGHT */}
+        <div className={'navBar_right'}>
+          <div className={'navBar_iconContainer'}>
+            <IconButton
+              className={classes.iconButton}
+              title={'settings'}
+              onClick={() => handleMenuClick('settings')}
+            >
+              <SettingsIcon />
+            </IconButton>
+          </div>
+        </div>
+      </div >
+      <Dialog open={authDialog} onClose={handleClose} className={classes.dialog} aria-labelledby="form-dialog-title">
+        {renderDialog(whichDialog)}
+      </Dialog>
+    </>
   );
 }
 

@@ -1,17 +1,20 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import * as sessionActions from '../../store/actions/session';
+
+import { AuthContext, setAuthDialog } from '../../context/Context';
+
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
-import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
-export default FormDialog = (props) => {
-  const [open, setOpen] = React.useState(false);
+const LoginForm = (props) => {
+  const { setAuthDialog } = useContext(AuthContext)
   const dispatch = useDispatch();
-  const history = useHistory();
-  const [credential, setCredential] = useState('demo@demo.com');
+  const [credential, setCredential] = useState('ahan8927@gmail.com');
   const [password, setPassword] = useState('Darks@8927');
   const [errors, setErrors] = useState([]);
 
@@ -23,36 +26,33 @@ export default FormDialog = (props) => {
         if (res.data && res.data.errors) setErrors(res.data.errors);
       }
     );
-    history.replace('/');
+    setAuthDialog(false);
   };
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
+  const handleSignup = () => {
+    props.setWhichDialog('signup')
+  }
 
   return (
-    <div>
-      <Button variant="outlined" color="primary" onClick={handleClickOpen}>
-        Open form dialog
-      </Button>
-      <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-        <DialogTitle id="form-dialog-title">Log In</DialogTitle>
-        <DialogContent>
-          <DialogContentText>
-            To Log In to this website, please enter your email address here.
+    <>
+      <DialogTitle id="form-dialog-title">Log In</DialogTitle>
+      <DialogContent>
+        <DialogContentText>
+          To Log In to this website, please enter your email address here.
           </DialogContentText>
+        <form onSubmit={handleSubmit}>
+          <ul>
+            {errors.map((error, idx) => <li key={idx}>{error}</li>)}
+          </ul>
           <TextField
             autoFocus
             margin="dense"
             id="name"
             label="Email Address"
-            type="email"
+            type='text'
             value={credential}
             onChange={setCredential}
+            required
             fullWidth
           />
           <TextField
@@ -62,18 +62,24 @@ export default FormDialog = (props) => {
             type="password"
             value={password}
             onChange={setPassword}
+            required
             fullWidth
           />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose} color="primary">
-            Cancel
-          </Button>
-          <Button onClick={handleClose} color="primary">
+          <Button type='submit' color="primary">
             Login
           </Button>
-        </DialogActions>
-      </Dialog>
-    </div>
+        </form>
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={() => setAuthDialog(false)} color="primary">
+          Cancel
+        </Button>
+        <Button onClick={handleSignup} color="primary">
+          Signup?
+        </Button>
+      </DialogActions>
+    </>
   );
 }
+
+export default LoginForm

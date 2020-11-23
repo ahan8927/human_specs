@@ -3,13 +3,10 @@ import { Route, Redirect, Switch } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 //Components
-import Home from './Body/Home';
+import Typing from './Body/Typing/TypingRoot';
 import Profile from './Body/Profile';
-import Login from './Body/Login';
-import Signup from './Body/Signup';
 import HighScores from './Body/HighScores';
-
-// import LoginFormModal from './Body/LoginFormModal';
+import Reaction from './Body/Reaction/Reaction';
 
 const PrivateRoute = props => {
   const isLoggedIn = useSelector(state => state.session ? true : false);
@@ -24,15 +21,14 @@ const Body = (props) => {
 
   return (
     <div style={{ display: 'flex', justifyContent: 'center' }}>
-      <h1>Body</h1>
-      <div style={{}}>
+      {/* <h1>Body</h1> */}
+      <div>
         <Switch>
-          <Route exact path='/' render={props => <Home {...props} />} />
+          <Route exact path='/' render={props => <Typing {...props} />} />
+          <Route exact path='/reaction' render={props => <Reaction {...props} />} />
           <PrivateRoute exact path='/profile' component={Profile} />
-          <Route exact path='/login' render={props => <Login {...props} />} />
-          <Route exact path='/signup' render={props => <Signup {...props} />} />
           <Route exact path='/ranks' render={props => <HighScores {...props} />} />
-          <Route path='*' render={props => <Home {...props} />} />
+          <Route path='*' render={props => <Typing {...props} />} />
         </Switch>
       </div>
     </div>

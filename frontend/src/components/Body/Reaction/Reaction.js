@@ -1,8 +1,6 @@
 import React from 'react';
 
 //Components
-import PracticeIndicators from './Typing/PracticeIndicators';
-import PracticeField from './Typing/PracticeField';
 
 //MUI
 import { makeStyles } from '@material-ui/core';
@@ -19,16 +17,16 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Home = (props) => {
+const Reaction = (props) => {
   const classes = useStyles();
   return (
     <div className={classes.root}>
+      <h1>Reaction</h1>
       <section className={classes.practice_layout}>
-        {/* <PracticeIndicators /> */}
 
       </section>
     </div>
   )
 }
 
-export default Home
+export default Reaction
