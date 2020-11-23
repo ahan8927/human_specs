@@ -5,7 +5,7 @@ import { makeStyles } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
   active: {
-
+    backgroundColor: 'pink',
   },
   correct: {
     color: 'blue',
@@ -32,7 +32,7 @@ const TypingField = () => {
 
   const generatePrompt = (settings) => {
     const words = faker.random.words(10).toLowerCase().split(' ');
-    return words
+    return words;
   }
 
   useEffect(() => {
@@ -53,14 +53,40 @@ const TypingField = () => {
 export default TypingField
 
 /*
-const [currentIIdx, setCurrentIIdx] = useState(0);
-const [currentJIdx, setCurrentJIdx] = useState(0);
+const [currentKey, setCurrentKey] = useState(prompt);
+const [activeWordIDX, setActiveWordIDX] = useState(0);
+const [activeLetterIDX, setActiveLetterIDX] = useState(0);
+
+useEffect(() => {
+  setCurrentKey(prompt[activeWordIDX][activeLetterIDX])
+}, [activeLetterIDX])
+
+const moveNextKey = () => {
+  (activeLetterIDX === (prompt[activeWordIDX].length - 1)) ? moveNextWord() : setactiveLetterIDX(activeLetterIDX + 1);
+}
+
+const moveNextWord = () => {
+  setCurrentJIIDX(0)
+  setActiveWordIDX(activeWordIDX + 1);
+}
+
+const moveBackKey = () => {
+  (activeLetterIDX === 0) ? moveBackWord() : setActiveLetterIDX(activeLetterIDX - 1);
+}
+
+const moveBackWord = () => {
+  activeWordIDX !== 0 && (
+    setActiveWordIDX(activeWordIDX - 1)
+    setActiveLetterIDX(prompt[activeWordIDX].length - 1)
+  )
+}
 
 //used after a keypress to check input.
-const checkLetter = () => {
-  keyPressed === 'backspace' && moveBackKey();
+onChange={checkLetter}
+const checkLetter = (e) => {
+  e.target.value === 'backspace' && moveBackKey();
 
-  keyPressed === prompt.currentKey ? prompt.currentKey.addclass('correct') : prompt.currentKey.addclass('incorrect')
+  e.target.value === currentKey ? currentKey.addclass('correct') : currentKey.addclass('incorrect')
   moveNextKey();
 }
 
