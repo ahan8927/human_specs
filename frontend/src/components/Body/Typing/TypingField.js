@@ -69,32 +69,41 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
+const initialSettings = {
+  wordLimit: 10,
+}
+
 const TypingField = () => {
+  const classes = useStyles();
   const faker = require('faker');
+  const [settings] = useState(initialSettings);
+  const [wordCount] = useState(settings.wordLimit);
+  const [letterCount, setLetterCount] = useState(0);
 
   const Word = (props) => {
     const classes = useStyles();
-    const letters = props.word.split('')
+    const letters = props.word.split('');
+    setLetterCount(letterCount + letters.length)
     const space = ' ';
 
     return (
       <span className={classes.word}>
         {
           letters.map((char, idx) => (
-            <letter key={idx} className={classes.letter}>
+            <span key={idx} className={classes.letter}>
               {char}
-            </letter>
+            </span>
           ))
         }
-        <letter>{space}</letter>
+        <span className={classes.letter}>{space}</span>
       </span>
     )
   }
 
   const generatePrompt = (settings) => {
-    const words = faker.random.words(10).toLowerCase().split(' ');
+    const words = faker.random.words(settings.wordLimit).toLowerCase().split(' ');
+    // setWordCount(words.length)
     return words.map((word, index) => {
-
       return (
         <Word key={index} word={word} />
       )
@@ -102,41 +111,36 @@ const TypingField = () => {
     );
   }
 
-
-
   const checkWord = (word) => {
     return
   }
 
 
+  // const [currentWord, setCurrentWord] = useState('');
 
+  const [prompt, setPrompt] = useState(generatePrompt(settings));
 
-  const classes = useStyles();
-
-  const [prompt, setPrompt] = useState(generatePrompt());
-  // const [wordCount, setWordCount]
-  // const [currentWord, setCurrentWord] = useState('')
-  const [input, setInput] = useState('')
+  const [WPM, setWPM] = useState(0);
+  const [errors, setErrors] = useState(0);
+  const [input, setInput] = useState('');
   const [time, setTime] = useState(0);
+  const [timeInterval, setTimeInterval] = useState();
   const [hasValue, setHasValue] = useState(false)
 
   const handleInput = (e) => {
     setInput(e.target.value);
   }
 
-  let timeInterval;
   const startTimer = () => {
-    const startTime = new Date()
-    timeInterval = setInterval(() => {
-      setTime(Math.floor(new Date() - startTime) / 1000)
-    }, 1000);
-    return timeInterval
+    const startTime = new Date().getSeconds
+    setTimeInterval(setInterval(() => {
+      setTime(Math.floor((new Date().getSeconds - startTime) / 1000))
+    }, 1000))
   }
 
   const stopTimer = () => {
-    console.log('stopping timer', timeInterval)
     clearInterval(timeInterval);
-    setTime(0)
+    setTime(0);
   }
 
   useEffect(() => {
@@ -144,11 +148,12 @@ const TypingField = () => {
   }, [hasValue])
 
   useEffect(() => {
-    input !== '' ? setHasValue(true) : setHasValue(false)
-    const letterArr = document.querySelectorAll('letter');
+    input !== '' ? setHasValue(true) : setHasValue(false);
+    // const wrapper = document.getElementById('typingField_wrapper')
+    const letterArr = document.getElementsByClassName(classes.letter);
     const inputArr = input.split('').slice(0, input.length);
     let isDone = true;
-    letterArr.forEach((letterTag, index) => {
+    [...letterArr].forEach((letterTag, index) => {
       const char = inputArr[index];
 
       if (!char) {
@@ -166,16 +171,16 @@ const TypingField = () => {
     })
     if (isDone) {
       stopTimer();
-      setPrompt(generatePrompt());
+      setWPM(wordCount / time)
+      setPrompt(generatePrompt(settings));
       setInput('');
     }
   }, [input, classes.incorrect, classes.correct])
 
-  console.log(hasValue)
   return (
     <div className={classes.root}>
-      <div>
-        <h1 className={classes.timer}>{time}</h1>
+      <div id='typingField_wrapper'>
+        <h1 className={classes.timer}>{time} {WPM}</h1>
         <div className={classes.prompt}>{prompt}</div>
         <textarea
           spellCheck='false'
