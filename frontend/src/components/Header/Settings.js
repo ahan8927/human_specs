@@ -21,7 +21,6 @@ const Settings = (props) => {
   const [errors, setErrors] = useState();
 
   const handleApply = () => {
-    console.log('applied!');
     setAuthDialog(false);
   }
 
