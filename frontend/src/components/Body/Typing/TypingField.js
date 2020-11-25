@@ -189,7 +189,6 @@ const TypingField = () => {
     if (checkLastWord()) {
       //or signal end of test.
       // generatePrompt();
-      console.log('test is done!')
     } else {
       setWordIdx(wordIdx + 1);
       setCurrentWord(prompt[wordIdx + 1]);
@@ -244,10 +243,10 @@ const TypingField = () => {
     checkStarted();
   }, [hasValue])
 
-  useEffect(() => {
-    currentWord && printStatus();
-    // checkLastLetter()
-  }, [letterIdx])
+  // useEffect(() => {
+  //   currentWord && printStatus();
+  //   // checkLastLetter()
+  // }, [letterIdx])
 
 
 
