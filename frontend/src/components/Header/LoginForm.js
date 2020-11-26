@@ -14,8 +14,8 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 const LoginForm = (props) => {
   const { setAuthDialog } = useContext(AuthContext)
   const dispatch = useDispatch();
-  const [credential, setCredential] = useState('ahan8927@gmail.com');
-  const [password, setPassword] = useState('Darks@8927');
+  const [credential, setCredential] = useState('demo@demo.demo');
+  const [password, setPassword] = useState('password');
   const [errors, setErrors] = useState([]);
 
   const handleSubmit = (e) => {
