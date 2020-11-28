@@ -23,6 +23,7 @@ const style = {
 }
 
 const App = (props) => {
+
   return (
     <div style={style}>
       <BrowserRouter>
@@ -39,12 +40,12 @@ const AppContainer = (props) => {
   const dispatch = useDispatch();
   const [isLoaded, setIsLoaded] = useState(false);
   const [authDialog, setAuthDialog] = useState(false);
-  // const [signupDialog, setSignupDialog] = useState(false);
+
   useEffect(() => {
-    dispatch(sessionActions.restoreUser()).then(() => setIsLoaded(true));
+    dispatch(sessionActions.restoreUser()).then(setIsLoaded(true))
   }, [dispatch]);
 
-  return (
+  return isLoaded && (
     <div style={{ display: 'flex', justifyContent: 'center' }}>
       <AuthContext.Provider value={{ authDialog, setAuthDialog }}>
         <App />

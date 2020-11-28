@@ -1,4 +1,5 @@
 import { fetch } from '../csrf';
+// import { connect }
 
 //Store Action Types
 export const SET_TYPING = 'api/typing';

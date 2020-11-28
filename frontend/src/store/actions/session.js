@@ -1,5 +1,5 @@
-// import { backendURL } from '../../config';
 import { fetch } from '../csrf';
+import { loadUserStats } from './stats';
 
 //Store Action Types
 export const SET_USER = 'human_specs/session/SET_USER';
@@ -21,8 +21,10 @@ export const loginUser = (user) => async (dispatch) => {
       }),
     });
 
+
     if (res.ok) {
       dispatch(setUser(res.data));
+
       return res;
     }
   } catch (e) {
@@ -51,7 +53,7 @@ export const restoreUser = () => async dispatch => {
 
     if (res.ok) {
       dispatch(setUser(res.data));
-      return res;
+      dispatch(loadUserStats(res.data.user.id));
     }
   }
   catch (e) {
