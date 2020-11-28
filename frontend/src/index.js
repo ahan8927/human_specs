@@ -11,6 +11,7 @@ import App from './App';
 import configureStore from './store';
 import { restoreCSRF, fetch } from './store/csrf';
 import * as sessionActions from './store/actions/session';
+import * as statActions from './store/actions/stats';
 
 //Set initial state
 const store = configureStore();
@@ -21,6 +22,7 @@ if (process.env.NODE_ENV !== 'production') {
   window.csrfFetch = fetch;
   window.store = store;
   window.sessionActions = sessionActions;
+  window.statActions = statActions;
 }
 
 ReactDOM.render(

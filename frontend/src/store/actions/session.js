@@ -2,8 +2,8 @@
 import { fetch } from '../csrf';
 
 //Store Action Types
-export const SET_USER = 'keybrrr/session/SET_USER';
-export const REMOVE_USER = 'keybrrr/session/REMOVE_USER';
+export const SET_USER = 'human_specs/session/SET_USER';
+export const REMOVE_USER = 'human_specs/session/REMOVE_USER';
 
 //Store Actions
 export const removeUser = (user) => ({ type: REMOVE_USER });

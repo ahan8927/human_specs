@@ -4,7 +4,7 @@ const asyncHandler = require("express-async-handler");
 
 const { handleValidationErrors } = require("../../utils/validation");
 const { setTokenCookie, requireAuth } = require("../../utils/auth");
-const { User } = require("../../db/models");
+const { User, TypingStat } = require("../../db/models");
 
 const router = express.Router();
 
@@ -43,5 +43,16 @@ router.post(
     });
   }),
 );
+
+router.get(
+  '/stats/:id',
+  asyncHandler(async (req, res) => {
+    const id = req.params.id
+    const typing = await TypingStat.getStats(id);
+    //const reaction = await ReactionStat.getStats(id);
+
+    return res.json({ typing: typing.dataValues, });
+  })
+)
 
 module.exports = router;

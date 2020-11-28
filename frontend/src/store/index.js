@@ -4,6 +4,7 @@ import thunk from 'redux-thunk';
 
 //Stores
 import session from './reducers/session';
+import stats from './reducers/stats';
 
 // const enhancer;
 let enhancer;
@@ -18,6 +19,7 @@ if (process.env.NODE_ENV === 'production') {
 
 const rootReducer = combineReducers({
   session,
+  stats
 });
 
 const configureStore = (preloadedState) => {

@@ -1,6 +1,7 @@
 'use strict';
-const { Validator } = require('sequelize');
+const { Validator, Sequelize } = require('sequelize');
 const bcrypt = require('bcryptjs');
+const { Op } = require('sequelize');
 
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define('User', {
@@ -48,6 +49,7 @@ module.exports = (sequelize, DataTypes) => {
     });
   User.associate = function (models) {
     // associations can be defined here
+    User.hasOne(models.TypingStat, { foreignKey: 'user_id' })
   };
 
   User.prototype.toSafeObject = function () { // remember, this cannot be an arrow function
@@ -63,8 +65,21 @@ module.exports = (sequelize, DataTypes) => {
     return await User.scope('currentUser').findByPk(id);
   };
 
+  // User.getStats = async function (id) {
+  //   const typingStat = await User.findAll({
+  //     include: [{
+  //       model: 'TypingStats',
+  //       where: { user_id: id }
+  //     }]
+  //   });
+
+  //   // const reactionStat = await User.findOne({
+  //   //   where: {}
+  //   // })
+  //   return { typingStat }
+  // };
+
   User.login = async function ({ credential, password }) {
-    const { Op } = require('sequelize');
     const user = await User.scope('loginUser').findOne({
       where: {
         [Op.or]: {
@@ -87,5 +102,6 @@ module.exports = (sequelize, DataTypes) => {
     });
     return await User.scope('currentUser').findByPk(user.id);
   };
+
   return User;
 };

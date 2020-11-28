@@ -22,5 +22,6 @@
   "bugs": {
     "url": "https://github.com/ahan8927/human_specs/issues"
   },
-  "homepage": "https://github.com/ahan8927/human_specs#readme"
+  "homepage": "https://github.com/ahan8927/human_specs#readme",
+  "dependencies": {}
 }
