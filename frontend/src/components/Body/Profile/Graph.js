@@ -1,32 +1,44 @@
-import React, { useState } from 'react';
-import { Bar, Bubble } from 'react-chartjs-2';
+import React from 'react';
+import { Scatter } from 'react-chartjs-2';
 
 //MUI
 import { makeStyles } from '@material-ui/core/styles';
-import { Typography } from '@material-ui/core';
+// import { Typography } from '@material-ui/core';
 
-const chartData = {
-  labels: ['Boston', 'Worcester', 'Springfield', 'Lowell', 'cambridge', 'New Bedford'],
-  datasets: [
-    {
-      label: 'Population',
-      data: [
-        12342,
-        23423,
-        123234,
-        423223,
-        333333
-      ],
-      backgroundColor: [
-        'blue',
-        'blue',
-        'blue',
-        'red',
-        'red',
-        'red',
-      ]
-    }
-  ],
+// const barData = {
+//   labels: ['Boston', 'Worcester', 'Springfield', 'Lowell', 'cambridge', 'New Bedford'],
+//   datasets: [
+//     {
+//       label: 'Population',
+//       data: [
+//         12342,
+//         23423,
+//         123234,
+//         423223,
+//         333333
+//       ],
+//       backgroundColor: [
+//         'blue',
+//         'blue',
+//         'blue',
+//         'red',
+//         'red',
+//         'red',
+//       ]
+//     }
+//   ],
+// }
+
+const options = {
+  scales: {
+    yAxes: [
+      {
+        ticks: {
+          beginAtZero: false,
+        },
+      },
+    ],
+  },
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -42,42 +54,52 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export const BarGraph = (props) => {
-  // const [data] = useSelector(state => );
+export const ScatterGraph = (props) => {
   const classes = useStyles();
+
+  const incomingData = {
+    display: true,
+    datasets: [
+      {
+        label: 'Typing Speed (WPM)',
+        backgroundColor: '#2a9d8f',
+        pointRadius: 10,
+        data: props.speed.map((wpm, index) => {
+          return {
+            x: index,
+            y: wpm,
+          }
+        })
+      }, {
+        label: 'Errors',
+        backgroundColor: '#e76f51',
+        pointRadius: 10,
+        data: props.errors.map((error, index) => {
+          return {
+            x: index,
+            y: error,
+          }
+        })
+      }, {
+        label: 'Number of keys',
+        backgroundColor: '#e9c46a',
+        pointRadius: 10,
+        data: props.letters.map((letter, index) => {
+          return {
+            x: index,
+            y: letter,
+          }
+        })
+      },
+    ]
+  }
 
   return (
     <div className={classes.root}>
-      <div className={classes.header}>
-        <Typography variant='h5' >Speed Data</Typography>
-        <Typography variant='subtitle2' >This chart shows how overall typing speed changes over time.</Typography>
-      </div>
-      <div >
-        {/* <h3>This chart shows how overall typing speed changes over time.</h3> */}
-        <Bar
-          data={chartData}
-          width={500}
-          height={500}
-          options={{ maintainAspectRatio: false }}
-        />
-      </div>
+      <Scatter
+        data={incomingData}
+        options={{ maintainAspectRatio: false }, options}
+      />
     </div>
   )
 }
-
-// export const ScatterGraph = (props) => {
-//   const classes = useStyles();
-
-//   return (
-//     <>
-//       <div className={classes.root}>
-//         <Bubble
-//           data={chartData}
-//           width={500}
-//           height={500}
-//           options={{ maintainAspectRatio: false }}
-//         />
-//       </div>
-//     </>
-//   )
-// }

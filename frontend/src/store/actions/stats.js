@@ -15,7 +15,6 @@ export const loadUserStats = (id) => async dispatch => {
     const res = await fetch(`api/users/stats/${id}`);
 
     if (res.ok) {
-      console.log(res.data.typing)
       dispatch(setUserStats(res.data, SET_TYPING))
       // return res.data.typing;
     } else {

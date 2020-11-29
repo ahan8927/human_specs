@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
 
 //Components
-import { BarGraph } from './Graph';
+import Typing from './Typing';
 
 //MUI
 import { makeStyles } from '@material-ui/core/styles';
@@ -35,21 +34,15 @@ const panels = [
     'id': 'typing',
     'heading': 'Typing Stats',
     'secondaryHeading': 'view your typing stats',
-    'details': [
-      <BarGraph />,
-      <BarGraph />
-    ]
   },
   {
     'id': 'reaction',
     'heading': 'Reaction Stats',
     'secondaryHeading': 'view your reaction stats',
-    'details': <BarGraph />
   },
 ]
 
 const Profile = (props) => {
-  // const [data] = useSelector(state => );
   const classes = useStyles();
   const [expanded, setExpanded] = useState(false);
 
@@ -71,9 +64,7 @@ const Profile = (props) => {
               <Typography className={classes.secondaryHeading}>{panel.secondaryHeading}</Typography>
             </AccordionSummary>
             <AccordionDetails>
-              {(expanded) && panel.details.map((graph, index) => (
-                { graph }
-              ))}
+              {<Typing />}
             </AccordionDetails>
           </Accordion>
         ))}
