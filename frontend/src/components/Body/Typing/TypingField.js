@@ -120,7 +120,7 @@ const Word = (props) => {
     <div className={classes.word}>
       {
         letters.map((letter, idx) => (
-          <Typography key={idx} className={classes.letter}>
+          <Typography color='primary' key={idx} className={classes.letter}>
             {letter}
           </Typography>
         ))}
