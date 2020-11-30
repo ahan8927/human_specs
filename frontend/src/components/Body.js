@@ -21,7 +21,6 @@ const Body = (props) => {
 
   return (
     <div style={{ display: 'flex', justifyContent: 'center' }}>
-      {/* <h1>Body</h1> */}
 
       <Switch>
         <Route exact path='/' render={props => <Typing {...props} />} />

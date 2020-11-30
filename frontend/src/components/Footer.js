@@ -5,15 +5,15 @@ import { Typography, Link } from '@material-ui/core';
 const Footer = (props) => {
   return (
     <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-      <div>
+      <Typography color='primary'>
         left
-      </div>
+      </Typography>
       <div>
-        <ErrorOutlineIcon />
-        <Typography>
+        <ErrorOutlineIcon color='primary' />
+        <Typography color='primary'>
           Cloned Application!
         </Typography>
-        <Typography>
+        <Typography color='primary'>
           Inspiration taken from <Link href='https://github.com/Miodec'>Miodec</Link>
         </Typography>
       </div>

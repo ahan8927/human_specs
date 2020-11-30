@@ -65,20 +65,6 @@ module.exports = (sequelize, DataTypes) => {
     return await User.scope('currentUser').findByPk(id);
   };
 
-  // User.getStats = async function (id) {
-  //   const typingStat = await User.findAll({
-  //     include: [{
-  //       model: 'TypingStats',
-  //       where: { user_id: id }
-  //     }]
-  //   });
-
-  //   // const reactionStat = await User.findOne({
-  //   //   where: {}
-  //   // })
-  //   return { typingStat }
-  // };
-
   User.login = async function ({ credential, password }) {
     const user = await User.scope('loginUser').findOne({
       where: {

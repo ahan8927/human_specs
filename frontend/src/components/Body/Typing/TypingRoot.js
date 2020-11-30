@@ -5,6 +5,7 @@ import PracticeField from './TypingField';
 
 //MUI
 import { makeStyles } from '@material-ui/core';
+import { useSelector } from 'react-redux';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -18,12 +19,17 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const initialSettings = {
+  wordLimit: 10,
+}
+
 const Typing = (props) => {
+  const user = useSelector(state => state.session.user)
   const classes = useStyles();
-  return (
+  return user && (
     <div className={classes.root}>
       <section className={classes.practice_layout}>
-        <PracticeField />
+        <PracticeField id={user.id} settings={initialSettings} />
       </section>
     </div>
   )

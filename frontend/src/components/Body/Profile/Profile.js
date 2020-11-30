@@ -60,8 +60,8 @@ const Profile = (props) => {
               aria-controls={`${panel.id}-content`}
               id={`${panel.id}-header`}
             >
-              <Typography className={classes.heading}>{panel.heading}</Typography>
-              <Typography className={classes.secondaryHeading}>{panel.secondaryHeading}</Typography>
+              <Typography color='primary' className={classes.heading}>{panel.heading}</Typography>
+              <Typography color='primary' className={classes.secondaryHeading}>{panel.secondaryHeading}</Typography>
             </AccordionSummary>
             <AccordionDetails>
               {<Typing />}

@@ -3,31 +3,6 @@ import { Scatter } from 'react-chartjs-2';
 
 //MUI
 import { makeStyles } from '@material-ui/core/styles';
-// import { Typography } from '@material-ui/core';
-
-// const barData = {
-//   labels: ['Boston', 'Worcester', 'Springfield', 'Lowell', 'cambridge', 'New Bedford'],
-//   datasets: [
-//     {
-//       label: 'Population',
-//       data: [
-//         12342,
-//         23423,
-//         123234,
-//         423223,
-//         333333
-//       ],
-//       backgroundColor: [
-//         'blue',
-//         'blue',
-//         'blue',
-//         'red',
-//         'red',
-//         'red',
-//       ]
-//     }
-//   ],
-// }
 
 const options = {
   scales: {

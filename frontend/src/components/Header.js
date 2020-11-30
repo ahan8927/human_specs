@@ -62,13 +62,13 @@ const Header = () => {
       title: 'Dashboard',
       redirect: false,
       path: 'dashboard',
-      icon: <DashboardIcon />
+      icon: <DashboardIcon color='primary' />
     },
     {
       title: 'Help',
       redirect: false,
       path: 'help',
-      icon: <HelpOutlineIcon />
+      icon: <HelpOutlineIcon color='primary' />
     }
   ]
 
@@ -111,7 +111,7 @@ const Header = () => {
         <div className={'navBar_left'}>
           {/* TODO: history.push('/home') */}
           <Button >
-            <Typography>human_{(params) ? params : 'specs'}</Typography>
+            <Typography color='primary' >human_{(params) ? params : 'specs'}</Typography>
           </Button>
         </div>
 
@@ -131,10 +131,12 @@ const Header = () => {
             <Button
               className={classes.iconButton}
               title={(user) ? 'Profile' : 'Login'}
-              startIcon={<PersonIcon />}
+              startIcon={<PersonIcon color='primary' />}
               onClick={() => (user ? handleNavClick('/profile') : handleMenuClick('login'))}
             >
-              {(user) ? `${user.username}` : 'Login'}
+              <Typography color='primary'>
+                {(user) ? `${user.username}` : 'Login'}
+              </Typography>
             </Button>
           </div>
         </div>
@@ -147,7 +149,7 @@ const Header = () => {
               title={'settings'}
               onClick={() => handleMenuClick('settings')}
             >
-              <SettingsIcon />
+              <SettingsIcon color='primary' />
             </IconButton>
           </div>
         </div>

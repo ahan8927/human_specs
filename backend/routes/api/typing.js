@@ -8,8 +8,10 @@ const router = express.Router();
 router.post(
   '',
   asyncHandler(async (req, res) => {
-    const { speed, score, time, frequency } = req.body;
-    const stats = await TypingStat.updateStats({ speed, score, time, errors, frequency });
+    // console.log('POSTINGGGGGGGG \n')
+    const { id, speed, errors, letters, score, time, frequency } = req.body;
+    // console.log(id, speed, errors, letters, score, time, frequency)
+    const stats = await TypingStat.updateStats({ id, speed, score, time, letters, errors, frequency });
 
     return res.json({
       stats,

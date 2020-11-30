@@ -57,19 +57,20 @@ module.exports = (sequelize, DataTypes) => {
     return typingStat
   }
 
-  TypingStat.updateStats = async function ({ id, speed, score, time, frequency }) {
-    const userStat = await TypingStat.findOne({
-      where: {
-        user_id: id
-      }
-    });
+  TypingStat.updateStats = async function ({ id, speed, letters, score, errors, time, frequency }) {
 
-    return await userStat.update({
-      speed: Sequelize.fn('array_append', Sequelize.col('speed'), speed),
-      score: Sequelize.fn('array_append', Sequelize.col('score'), score),
-      time: Sequelize.fn('array_append', Sequelize.col('time'), time),
-      frequency: Sequelize.fn('array_append', Sequelize.col('frequency'), frequency),
-    });
+    // console.log(typeof speed, typeof errors, typeof letters, typeof score, typeof time, '\n')
+    return await TypingStat.update({
+      'speed': sequelize.fn('array_append', sequelize.col('speed'), speed),
+      'score': sequelize.fn('array_append', sequelize.col('score'), score),
+      // 'time': sequelize.fn('array_append', sequelize.col('time'), 0.9),
+      'errors': sequelize.fn('array_append', sequelize.col('errors'), errors),
+      'letters': sequelize.fn('array_append', sequelize.col('letters'), letters),
+      'frequency': frequency,
+    },
+      {
+        where: { user_id: id }
+      });
   };
 
   return TypingStat;

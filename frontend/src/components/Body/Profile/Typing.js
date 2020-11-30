@@ -47,7 +47,7 @@ const TypingStats = (props) => {
 
   const arrSum = function (arr) {
     const num = arr.reduce(function (a, b) {
-      return a + b
+      return a + parseFloat(b)
     }, 0);
     return num.toFixed(2)
   }
@@ -74,7 +74,7 @@ const TypingStats = (props) => {
     },
     {
       label: 'Avg Speed (WPM):',
-      number: arrSum(data.speed) / data.speed.length,
+      number: Math.floor(arrSum(data.speed) / data.speed.length),
     },
     {
       label: 'Top Score',

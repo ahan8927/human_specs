@@ -21,7 +21,7 @@ module.exports = {
       time: {
         //in minutes
         allowNull: false,
-        type: Sequelize.ARRAY(Sequelize.FLOAT),
+        type: Sequelize.ARRAY(Sequelize.STRING),
         // defaultValue: 0,
       },
       errors: {

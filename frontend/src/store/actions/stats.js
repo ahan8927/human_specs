@@ -26,11 +26,21 @@ export const loadUserStats = (id) => async dispatch => {
 }
 
 export const updateUserStats = (stats, test) => async dispatch => {
+  const { id, speed, score, errors, letters, time, frequency } = stats;
   try {
     const res = await fetch(`${test}`, {
-      method: 'POST'
+      method: 'POST',
+      body: JSON.stringify({
+        id: id,
+        speed: speed,
+        errors: errors,
+        score: score,
+        letters: letters,
+        time: time,
+        frequency: frequency
+      }),
     });
-    (res.ok) && dispatch(setUserStats(res.data, test))
+    (res.ok) && dispatch(loadUserStats(1))
   } catch (e) {
     console.error(e)
   }
