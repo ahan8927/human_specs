@@ -8,9 +8,126 @@ import { makeStyles, Typography, useTheme } from '@material-ui/core';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 // import styles from './TypingStyles';
 
+const useStyles = makeStyles((theme) => ({
+  '& > *': {
+    boxSizing: 'border-box',
+  },
+  root: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    margin: '0',
+  },
 
 
 
+  blur: {
+    filter: 'blur(4px)',
+    marginBottom: '1rem',
+    marginLeft: 'calc(1rem + 2px)',
+    marginRight: 'calc(1rem + 2px)',
+  },
+  hide: {
+    opacity: '0'
+  },
+  clickHere: {
+    position: 'relative',
+    top: '5rem',
+    // left: '25rem',
+  },
+  active: {
+    backgroundColor: 'grey',
+  },
+
+
+  container: {
+    padding: '1rem',
+    borderRadius: '.5rem',
+  },
+  typingField_wrapper: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center'
+  },
+  timer: {
+    width: 'fit-content',
+    height: '18rem',
+    opacity: '0.5',
+    filter: 'blur(3px)',
+
+    fontSize: '15rem',
+  },
+  indicator_container: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+
+    position: 'absolute',
+    top: '20vh',
+  },
+
+
+  prompt: {
+    marginBottom: '1rem',
+    marginLeft: 'calc(1rem + 2px)',
+    marginRight: 'calc(1rem + 2px)',
+  },
+  input: {
+    backgroundColor: 'transparent',
+    position: 'absolute',
+    border: '2px solid blue',
+    outline: 'none',
+    margin: 'auto',
+    padding: '.5rem 1rem',
+    resize: 'none',
+    borderRadius: '.5rem',
+    opacity: '0',
+  },
+
+
+  word: {
+    display: 'inline-block',
+    height: 'fit-content',
+    alignItems: 'center',
+    padding: '0 .3rem',
+  },
+  letter: {
+    display: 'inline-block',
+    fontSize: '1.75rem',
+    padding: '0 .5px'
+  },
+  correctLetter: {
+    // color: theme.success,
+    color: 'green'
+  },
+  incorrectLetter: {
+    color: 'red',
+    // borderBottom: '1px solid red'
+    // borderBottom: `1px solid ${theme.error}`
+  },
+
+}))
+
+
+//word component
+const Word = (props) => {
+  const classes = useStyles();
+  const letters = props.word.split('')
+  const space = ' ';
+  // console.log('word: ', classes.word)
+  return (
+    <div className={classes.word}>
+      {
+        letters.map((letter, idx) => (
+          <Typography key={idx} className={classes.letter}>
+            {letter}
+          </Typography>
+        ))}
+      <Typography className={classes.letter}>{space}</Typography>
+    </div>
+  )
+}
 
 
 // TYPINGFIELD COMPONENT
@@ -18,107 +135,8 @@ const TypingField = (props) => {
   const faker = require('faker');
   const dispatch = useDispatch();
 
-  const theme = useTheme();
-  const useStyles = makeStyles((theme) => ({
-    '& > *': {
-      boxSizing: 'border-box',
-    },
-    root: {
-      display: 'flex',
-      flexDirection: 'column',
-      justifyContent: 'center',
-      alignItems: 'center',
-      margin: '0',
-    },
+  // const theme = useTheme();
 
-
-
-    blur: {
-      filter: 'blur(4px)',
-      marginBottom: '1rem',
-      marginLeft: 'calc(1rem + 2px)',
-      marginRight: 'calc(1rem + 2px)',
-    },
-    hide: {
-      opacity: '0'
-    },
-    clickHere: {
-      position: 'relative',
-      top: '5rem',
-      // left: '25rem',
-    },
-    active: {
-      backgroundColor: theme.action,
-    },
-
-
-    container: {
-      padding: '1rem',
-      borderRadius: '.5rem',
-    },
-    typingField_wrapper: {
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center'
-    },
-    timer: {
-      width: 'fit-content',
-      height: '18rem',
-      opacity: '0.5',
-      filter: 'blur(3px)',
-
-      fontSize: '15rem',
-    },
-    indicator_container: {
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-
-      position: 'absolute',
-      top: '20vh',
-    },
-
-
-    prompt: {
-      marginBottom: '1rem',
-      marginLeft: 'calc(1rem + 2px)',
-      marginRight: 'calc(1rem + 2px)',
-    },
-    input: {
-      backgroundColor: 'transparent',
-      position: 'absolute',
-      border: '2px solid blue',
-      outline: 'none',
-      margin: 'auto',
-      padding: '.5rem 1rem',
-      resize: 'none',
-      borderRadius: '.5rem',
-      opacity: '0',
-    },
-
-
-    word: {
-      display: 'inline-block',
-      height: 'fit-content',
-      alignItems: 'center',
-      padding: '0 .3rem',
-    },
-    letter: {
-      display: 'inline-block',
-      fontSize: '1.75rem',
-      padding: '0 .5px'
-    },
-    correctLetter: {
-      // color: theme.success,
-      color: 'red'
-    },
-    incorrectLetter: {
-      color: theme.error,
-      // borderBottom: '1px solid red'
-      borderBottom: `1px solid ${theme.error}`
-    },
-
-  }))
   const classes = useStyles();
   // const stats = useSelector(state => state.stats.user.typing)
 
@@ -141,34 +159,7 @@ const TypingField = (props) => {
   const [isError, setIsError] = useState(false);
   const [errors, setErrors] = useState(0);
 
-
-
-
-
-
-
-
-
-  //word component
-  const Word = (props) => {
-    const letters = props.word.split('')
-    const space = ' ';
-
-    return (
-      <div className={classes.word}>
-        {
-          letters.map((letter, idx) => (
-            <Typography key={idx} className={classes.letter}>
-              {letter}
-            </Typography>
-          ))}
-        <Typography className={classes.letter}>{space}</Typography>
-      </div>
-    )
-  }
-
-  const wordNodes = document.getElementsByClassName(classes.word);
-
+  let wordNodes = document.getElementsByClassName(classes.word);
 
 
 
@@ -328,6 +319,9 @@ const TypingField = (props) => {
   useEffect(() => {
     setIsLoaded(true)
     generatePrompt(settings);
+    // console.log(classes.word)
+    // wordNodes = [...document.getElementsByClassName(classes.word)];
+    // console.log(wordNodes)
   }, [])
 
   useEffect(() => {
