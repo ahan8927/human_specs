@@ -53,10 +53,10 @@ const TypingStats = (props) => {
   }
 
   const calculateTime = (time) => {
-    const minutes = (time >= 60) ? Math.floor(time) - 60 : Math.floor(time)
-    const seconds = (time % 1).toFixed(2) * 60
-    const hours = Math.floor(time - minutes) / 60
-    return `${(hours < 10) ? 0 : ''}${hours}:${(minutes < 10) ? 0 : ''}${minutes}:${(seconds < 10) ? 0 : ''}${seconds}`
+    const hr = Math.trunc(time * (1 / 60))
+    const min = Math.trunc(((time * (1 / 60)) - hr) * 60)
+    const sec = Math.trunc(((((time * (1 / 60)) - hr) * 60) - min) * 60)
+    return `${(hr < 10) ? 0 : ''}${hr}:${(min < 10) ? 0 : ''}${min}:${(sec < 10) ? 0 : ''}${sec}`
   }
 
   const statTable = [
@@ -86,7 +86,7 @@ const TypingStats = (props) => {
     <div className={classes.root}>
       <div className={classes.statTable}>
         {statTable.map((stat) => (
-          <div className={classes.statTable_container}>
+          <div key={stat} className={classes.statTable_container}>
             <Typography variant='subtitle2' className={classes.statTable_label}>{stat.label}</Typography>
             <Typography variant='subtitle1' className={classes.statTable_number}>{stat.number}</Typography>
           </div>

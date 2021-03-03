@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 //Components
 import PracticeField from './TypingField';
@@ -20,16 +20,21 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const initialSettings = {
-  wordLimit: 10,
+  wordLimit: 30,
+  maxLength: 5,
+  upperCase: false,
+  punctuation: false,
+
 }
 
 const Typing = (props) => {
   const user = useSelector(state => state.session.user)
+  const [settings, setSettings] = useState(initialSettings)
   const classes = useStyles();
   return user && (
     <div className={classes.root}>
       <section className={classes.practice_layout}>
-        <PracticeField id={user.id} settings={initialSettings} />
+        <PracticeField id={user.id} settings={settings} />
       </section>
     </div>
   )

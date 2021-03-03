@@ -2,13 +2,15 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import * as statActions from '../../../store/actions/stats';
 
+//Components
+import Words from './Word'
+
 
 //MUI
-import { makeStyles, Typography, useTheme } from '@material-ui/core';
+import { Button, makeStyles, Typography } from '@material-ui/core';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
-// import styles from './TypingStyles';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles((props) => ({
   '& > *': {
     boxSizing: 'border-box',
   },
@@ -33,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
   },
   clickHere: {
     position: 'relative',
-    top: '5rem',
+    top: '2.5rem',
     // left: '25rem',
   },
   active: {
@@ -53,10 +55,14 @@ const useStyles = makeStyles((theme) => ({
   timer: {
     width: 'fit-content',
     height: '18rem',
-    opacity: '0.5',
+    opacity: '0.2',
     filter: 'blur(3px)',
 
-    fontSize: '15rem',
+    fontSize: '20rem',
+  },
+  wordCount: {
+    position: 'relative',
+    top: '4rem',
   },
   indicator_container: {
     display: 'flex',
@@ -84,100 +90,77 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: '.5rem',
     opacity: '0',
   },
-
-
-  word: {
-    display: 'inline-block',
-    height: 'fit-content',
-    alignItems: 'center',
-    padding: '0 .3rem',
-  },
-  letter: {
-    display: 'inline-block',
-    fontSize: '1.75rem',
-    padding: '0 .5px'
-  },
-  correctLetter: {
-    // color: theme.success,
-    color: 'green'
-  },
-  incorrectLetter: {
-    color: 'red',
-    // borderBottom: '1px solid red'
-    // borderBottom: `1px solid ${theme.error}`
-  },
-
 }))
-
-
-//word component
-const Word = (props) => {
-  const classes = useStyles();
-  const letters = props.word.split('')
-  const space = ' ';
-  // console.log('word: ', classes.word)
-  return (
-    <div className={classes.word}>
-      {
-        letters.map((letter, idx) => (
-          <Typography color='primary' key={idx} className={classes.letter}>
-            {letter}
-          </Typography>
-        ))}
-      <Typography className={classes.letter}>{space}</Typography>
-    </div>
-  )
-}
-
 
 // TYPINGFIELD COMPONENT
 const TypingField = (props) => {
   const faker = require('faker');
+  const randomWords = require('random-words');
+
   const dispatch = useDispatch();
-
-  // const theme = useTheme();
-
   const classes = useStyles();
-  // const stats = useSelector(state => state.stats.user.typing)
 
   //Component States
   const { settings } = props;
   const [isLoaded, setIsLoaded] = useState(false)
-  const [input] = useState('');
+  const [input, setInput] = useState('');
   const [timeInterval, setTimeInterval] = useState();
-  const [hasValue, setHasValue] = useState(false);
+  const [started, setStarted] = useState(false);
   const [blur, setBlur] = useState(true)
 
   const [prompt, setPrompt] = useState([]);
   const [wordIdx, setWordIdx] = useState(0);
   const [letterIdx, setLetterIdx] = useState(0);
-  const [isLastLetter, setIsLastLetter] = useState(false)
 
   //For data collection
   const [letterCount, setLetterCount] = useState(0);
   const [time, setTime] = useState(0);
-  const [isError, setIsError] = useState(false);
   const [errors, setErrors] = useState(0);
-
-  let wordNodes = document.getElementsByClassName(classes.word);
 
 
 
 
 
   //COMPONENT FUNCTIONS
-  const sendData = (data) => {
-    dispatch(statActions.updateUserStats(data, statActions.SET_TYPING))
+  const initializeErrors = () => {
+    const initialErrors = {}
+    for (let i = 0; i < prompt.join(' ').length; i++) {
+      initialErrors[i] = false
+    }
+    setErrors(initialErrors)
+  }
+
+  const generatePrompt = async (settings) => {
+    // const generatedWords = faker.random.words(props.settings.wordLimit).toLowerCase();
+    const generatedWords = randomWords({
+      exactly: props.settings.wordLimit,
+      maxLength: props.settings.maxLength,
+      formatter: (word) => {
+        if (props.settings.upperCase) {
+          word = word.charAt(0).toUpperCase() + word.slice(1)
+        }
+        return word
+      },
+      join: ' ',
+    })
+
+    const wordsArr = generatedWords.split(' ');
+    const letterArr = generatedWords.split('');
+
+    initializeErrors();
+    setLetterIdx(0);
+    setLetterCount(letterArr.length)
+    setPrompt(wordsArr);
   }
 
   const startTimer = () => {
-    setHasValue(true);
-    let newTime = 0
-    setTimeInterval(setInterval(() => {
-      newTime += 1
-      setTime(newTime)
-      // setTime(new Date().getSeconds())
-    }, 1000))
+    if (!started) {
+      let count = 0
+      setTimeInterval(setInterval(() => {
+        count += 1
+        setTime(count)
+      }, 1000))
+    }
   }
 
   const stopTimer = () => {
@@ -185,120 +168,31 @@ const TypingField = (props) => {
     setTime(0);
   }
 
-  const checkNextInvalid = () => {
-    return (prompt[wordIdx][letterIdx + 1]) ? false : true;
-  }
+  const handleInput = e => {
+    e.target.value = e.target.value[e.target.value.length - 1]
+    startTimer();
+    setStarted(true);
 
-  const checkLastWord = () => {
-    return (wordIdx === prompt.length - 1) ? true : false;
-  }
+    if ((input + e.target.value).length === prompt.join(' ').length) {
+      completeTest();
+      return;
 
-  const printStatus = () => {
-    console.log('word: ', prompt[wordIdx], ' letter: ', prompt[wordIdx][letterIdx]);
-    console.log('word idx: ', wordIdx, ' letter idx: ', letterIdx);
-    console.log('last word idx: ', prompt.length - 1, ' last letter idx: ', prompt[wordIdx].length - 1)
-    console.log('Errors : ', errors);
-    console.log('')
-    console.log('\n')
-  }
-
-  const resetClasses = () => {
-    [...wordNodes].forEach(word => {
-      word.childNodes.forEach(letter => {
-        letter.classList.remove(classes.incorrectLetter)
-        letter.classList.remove(classes.correctLetter)
-        letter.classList.remove(classes.active)
-      })
-    })
-  }
-
-  const generatePrompt = async (settings) => {
-    const generatedWords = faker.random.words(props.settings.wordLimit).toLowerCase();
-    const wordsArr = generatedWords.split(' ');
-    const letterArr = generatedWords.split('')
-    resetClasses();
-    setErrors(0)
-    setWordIdx(0);
-    setLetterIdx(0);
-    setLetterCount(letterArr.length)
-    setPrompt(wordsArr);
-  }
-
-  const checkInput = (e) => {
-
-    if (e.target.value === prompt[wordIdx][letterIdx]) {
-      wordNodes[wordIdx].childNodes[letterIdx].classList.add(isError ? classes.incorrectLetter : classes.correctLetter)
-      return true
-    }
-    return false;
-  }
-
-  const moveWord = () => {
-    setIsError(false);
-    wordNodes[wordIdx].childNodes[letterIdx].classList.remove(classes.active)
-
-    if (checkLastWord()) {
-      // console.log('Test Complete!')
-      stopTimer()
-      completeTest()
     } else {
-      setWordIdx(wordIdx + 1);
-      setLetterIdx(0);
-      setIsLastLetter(false)
-    }
-  }
+      if (e.target.value === prompt.join(' ')[letterIdx]) {
+        if (e.target.value === ' ') setWordIdx(wordIdx + 1)
 
-  const moveLetter = () => {
-    setIsError(false)
-    setLetterIdx(letterIdx + 1);
-    wordNodes[wordIdx].childNodes[letterIdx].classList.remove(classes.active)
+        setInput(input + e.target.value)
+        setLetterIdx(letterIdx + 1)
 
-  }
-
-  const handleInput = (e) => {
-
-    checkStarted();
-    if (isLastLetter) {
-      if (e.target.value === ' ') {
-
-        moveWord();
       } else {
-        setIsError(true);
-        setErrors(errors + 1);
+        const newErrors = errors
+        newErrors[letterIdx] = true
+        setErrors(newErrors)
       }
-
-    } else if (checkInput(e)) {
-      if (checkNextInvalid()) {
-        setIsLastLetter(true);
-      } else {
-
-        moveLetter();
-      }
-    } else {
-      setIsError(true);
-      setErrors(errors + 1);
     }
-  }
-
-  const checkStarted = () => {
-    !hasValue && startTimer();
-  }
-
-  const completeTest = () => {
-    const data = {
-      id: props.id,
-      speed: Math.floor((prompt.length) / (time / 60)),
-      errors: errors,
-      score: 1000,
-      letters: letterCount,
-      time: (time / 60).toFixed(2)
-    };
-    sendData(data);
-    generatePrompt();
   }
 
   const handleClick = () => {
-    // console.log('unblur!');
     setBlur(false);
     const inputField = document.getElementsByClassName(classes.input);
     inputField[0].focus()
@@ -308,61 +202,78 @@ const TypingField = (props) => {
     setBlur(true)
   }
 
+  const handleRestart = () => {
+    setInput('');
+    stopTimer();
+    setWordIdx(0);
+    setLetterIdx(0);
+    setStarted(false);
+    initializeErrors();
+  }
+
+  const completeTest = () => {
+    let errorCount = 0;
+    Object.keys(errors).forEach(key => {
+      if (errors[key]) errorCount += 1
+    });
+
+    const speed = Math.floor((prompt.length) / (time / 60));
+    const score = (speed * props.settings.wordLimit) - errorCount;
+
+    const data = {
+      id: props.id,
+      speed: speed,
+      errors: errorCount,
+      score: score,
+      letters: letterCount,
+      time: (time / 60).toFixed(2)
+    };
+    console.log(data)
+    dispatch(statActions.updateUserStats(data, statActions.SET_TYPING))
+    generatePrompt();
+    handleRestart();
+  }
 
 
 
 
 
-
-
-  //COMPONENT USE EFFECTS
   useEffect(() => {
-    setIsLoaded(true)
     generatePrompt(settings);
-    // console.log(classes.word)
-    // wordNodes = [...document.getElementsByClassName(classes.word)];
-    // console.log(wordNodes)
+    setIsLoaded(true)
   }, [])
 
-  useEffect(() => {
-
-    if (prompt[wordIdx]) {
-      const wordNodes = document.getElementsByClassName(classes.word);
-      wordNodes[wordIdx].childNodes[letterIdx].classList.add(classes.active)
-    }
-    // checkLastLetter()
-  }, [letterIdx])
-
-
-
-
-
-
-
-  //RENDER
-  return (
+  return isLoaded && (
     <ClickAwayListener onClickAway={handleClickAway}>
-
       <div className={classes.root}>
         <div id='typingField_wrapper' className={classes.typingField_wrapper} onClick={handleClick}>
           <Typography variant='h5' color='primary' className={(blur) ? classes.clickHere : classes.hide}>Click to begin</Typography>
-          <div className={classes.indicator_container}>
-            <Typography color='primary' className={classes.timer}>{time} </Typography>
-            <Typography color='primary' className={classes.wordCount}>{wordIdx + 1}/{settings.wordLimit}</Typography>
-          </div>
+
+          {started && (
+            <div className={classes.indicator_container}>
+              <Typography color='primary' className={classes.timer}>{time} </Typography>
+              <Typography color='primary' className={classes.wordCount}>{wordIdx + 1}/{settings.wordLimit}</Typography>
+            </div>
+          )}
+
           <div className={blur ? classes.blur : classes.prompt}>{
-            prompt.map((word, index) => (
-              <Word key={index} word={word} />
-            ))
+            <Words prompt={prompt} errors={errors} input={input} />
           }</div>
+
           <textarea
             spellCheck='false'
             className={classes.input}
-            onChange={handleInput}
+            onChange={(e) => handleInput(e)}
             value={input}
           />
         </div>
-        {/* <button onClick={sendData}>send data</button> */}
+
+        <Button onClick={() => {
+          handleRestart();
+          handleClickAway();
+        }}>
+          Restart
+        </Button>
       </div>
     </ClickAwayListener>
   )
