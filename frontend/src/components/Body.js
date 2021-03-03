@@ -4,7 +4,6 @@ import { useSelector } from 'react-redux';
 
 //Components
 import Typing from './Body/Typing/TypingRoot';
-import Type from './Body/Type/Type';
 import Profile from './Body/Profile/Profile';
 import HighScores from './Body/HighScores';
 import Reaction from './Body/Reaction/Reaction';
@@ -25,7 +24,6 @@ const Body = (props) => {
 
       <Switch>
         <Route exact path='/typing' render={props => <Typing {...props} />} />
-        {/* <Route exact path='/type' render={props => <Type {...props} />} /> */}
         <Route exact path='/reaction' render={props => <Reaction {...props} />} />
         <PrivateRoute exact path='/profile' component={Profile} />
         <Route exact path='/ranks' render={props => <HighScores {...props} />} />
