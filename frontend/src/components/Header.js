@@ -55,8 +55,6 @@ const Header = () => {
     (JSON.stringify(loadedUser) === '{}') ? setUser(null) : setUser(loadedUser)
   }, [loadedUser])
 
-
-
   const navs = [
     {
       title: 'Dashboard',
