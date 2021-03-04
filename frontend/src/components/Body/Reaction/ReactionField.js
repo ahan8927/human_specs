@@ -29,7 +29,7 @@ const useStyles = makeStyles((props) => ({
 }));
 const Green = '#C8323E';
 const Red = '#4C8000';
-const Default = '#8C5ED7';
+const Default = 'rgba(140, 94, 215, .5)';
 
 const ReactionField = (props) => {
   const classes = useStyles();
@@ -38,13 +38,13 @@ const ReactionField = (props) => {
   const [timeInterval, setTimeInterval] = useState(0);
   const [changed, setChanged] = useState(false);
   const [started, setStarted] = useState(false);
-  const [clicked, setClicked] = useState(false);
+  const [clicked, setClicked] = useState(false)
   const [finished, setFinished] = useState(false);
 
   const count = useRef({
     time: 0,
     attempts: 0,
-    data: [],
+    data: 0,
   })
 
   const randomNumber = () => {
@@ -54,12 +54,12 @@ const ReactionField = (props) => {
   const handleChange = () => {
     console.log('changed!')
     setChanged(true)
-    const startTime = Date.now();
 
+    const startTime = Date.now();
     setTimeInterval(setInterval(function () {
       const elapsedTime = Date.now() - startTime;
       count.current.time = (elapsedTime / 1000).toFixed(3);
-    }, 100))
+    }, 10))
   }
 
   const handleRestart = () => {
@@ -69,31 +69,40 @@ const ReactionField = (props) => {
     count.current.attempts = 0;
     setStarted(false)
     setChanged(false)
+    setClicked(false)
   }
 
   const handleClick = e => {
-    const wait = randomNumber()
+
     if (started) {
       if (changed) {
-        console.log('well done')
-
         clearInterval(timeInterval)
-        // count.current.data.append(count.current.time)
+
+        console.log('well done', count.current.time)
+        count.current.data = count.current.time >= 1000 ? 1000 : count.current.time
+        setClicked(true)
+
         setTimeout(function () {
           handleRestart()
         }, 2000);
       } else {
         console.log('False Start!')
-
         clearInterval(timeInterval)
+        setClicked(true)
+        setTimeInterval(null)
+
         setTimeout(function () {
+          count.current.data = 1000
           handleRestart()
         }, 2000);
       }
+      handleSubmit()
 
     } else {
-      console.log('Begin!', wait)
+      const wait = randomNumber()
+      console.log('Wait for the Green...', wait)
       setStarted(true)
+
       setTimeout(function () {
         handleChange();
       }, wait)
@@ -101,10 +110,28 @@ const ReactionField = (props) => {
   }
 
   const handleSubmit = () => {
-    // dispatch(statActions.updateUserStats(data, statActions.SET_TYPING))
     console.log('Submitted!', count.current.data)
-    count.current.data = [];
+    // dispatch(statActions.updateUserStats(data, statActions.SET_TYPING))
   }
+
+  const getCount = () => {
+    return count.current.data
+  }
+
+  const handleDisplay = () => {
+    if (started) {
+      if (clicked) {
+        return (changed) ? `${getCount()} ms` : 'False Start.'
+      }
+      if (changed) {
+        return 'Click!'
+      }
+      return 'Wait for Green'
+    }
+    return 'Click to begin.'
+  }
+
+
 
 
 
@@ -122,7 +149,7 @@ const ReactionField = (props) => {
         (finished)
           ? (<Paper className={classes.results}>
             <Typography>Here are your stats</Typography>
-            <Button onClick={() => handleSubmit()}>Try Again?</Button>
+            <Button onMouseDown={() => handleSubmit()}>Try Again?</Button>
           </Paper>)
 
           : (<div
@@ -130,7 +157,7 @@ const ReactionField = (props) => {
             style={{ backgroundColor: `${started ? (changed ? Red : Green) : Default}` }}
             onClick={() => handleClick()}
           >
-            {<Typography>{started ? (changed ? ((clicked) ? count.current.time : 'Click!') : 'Wait for Green') : 'Click to start!'}</Typography>}
+            {<Typography>{handleDisplay()}</Typography>}
           </div>)
       }
     </>
