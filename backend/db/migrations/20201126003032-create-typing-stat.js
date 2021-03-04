@@ -11,34 +11,35 @@ module.exports = {
       speed: {
         allowNull: false,
         type: Sequelize.ARRAY(Sequelize.INTEGER),
-        // defaultValue: 0,
+        defaultValue: [0],
       },
       score: {
         allowNull: false,
         type: Sequelize.ARRAY(Sequelize.INTEGER),
-        // defaultValue: 0,
+        defaultValue: [0],
       },
       time: {
         //in minutes
         allowNull: false,
         type: Sequelize.ARRAY(Sequelize.STRING),
-        // defaultValue: 0,
+        defaultValue: [0],
       },
       errors: {
         allowNull: false,
         type: Sequelize.ARRAY(Sequelize.INTEGER),
-        // defaultValue: 0,
+        defaultValue: [0],
       },
       letters: {
         allowNull: false,
         type: Sequelize.ARRAY(Sequelize.INTEGER),
-        // defaultValue: 0,
+        defaultValue: [0],
       },
-      frequency: {
+      words: {
         allowNull: false,
-        type: Sequelize.INTEGER,
-        defaultValue: 0,
+        type: Sequelize.ARRAY(Sequelize.INTEGER),
+        defaultValue: [0],
       },
+
       user_id: {
         allowNull: false,
         type: Sequelize.INTEGER,

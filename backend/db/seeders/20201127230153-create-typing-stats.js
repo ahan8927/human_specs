@@ -18,7 +18,6 @@ module.exports = {
       time: ['0.43', ' 0.28', '0.20', '0.16', '0.13'],
       letters: [50, 60, 55, 54, 53],
       errors: [10, 5, 3, 6, 8],
-      frequency: 5,
       user_id: 1
     }], {});
   },

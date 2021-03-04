@@ -1,13 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-//Components
+//components
+import ReactionField from './ReactionField';
 
 //MUI
 import { makeStyles } from '@material-ui/core';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles((props) => ({
   root: {
     display: 'flex',
+    flexDirection: 'column',
     flexGrow: 'inherit',
   },
   practice_layout: {
@@ -17,13 +19,18 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const initialSettings = {
+  attempts: 5,
+}
+
 const Reaction = (props) => {
   const classes = useStyles();
+
   return (
     <div className={classes.root}>
       <h1>Reaction</h1>
       <section className={classes.practice_layout}>
-
+        <ReactionField settings={initialSettings} />
       </section>
     </div>
   )

@@ -11,31 +11,32 @@ module.exports = (sequelize, DataTypes) => {
     speed: {
       type: DataTypes.ARRAY(DataTypes.INTEGER),
       allowNull: false,
-      // defaultValue: 0,
+      defaultValue: [0],
     },
     score: {
       type: DataTypes.ARRAY(DataTypes.INTEGER),
       allowNull: false,
-      // defaultValue: 0,
+      defaultValue: [0],
     },
     time: {
       type: DataTypes.ARRAY(DataTypes.FLOAT),
       allowNull: false,
-      //in minutes
-      // defaultValue: 0,
+      defaultValue: [0],
     },
     letters: {
-      type: DataTypes.ARRAY(DataTypes.FLOAT),
+      type: DataTypes.ARRAY(DataTypes.INTEGER),
       allowNull: false,
+      defaultValue: [0],
+    },
+    words: {
+      type: DataTypes.ARRAY(DataTypes.INTEGER),
+      allowNull: false,
+      defaultValue: [0],
     },
     errors: {
       type: DataTypes.ARRAY(DataTypes.INTEGER),
       allowNull: false,
-    },
-    frequency: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      defaultValue: 0,
+      defaultValue: [0],
     },
     user_id: {
       type: DataTypes.INTEGER,
@@ -57,16 +58,15 @@ module.exports = (sequelize, DataTypes) => {
     return typingStat
   }
 
-  TypingStat.updateStats = async function ({ id, speed, letters, score, errors, time, frequency }) {
+  TypingStat.updateStats = async function ({ id, speed, letters, score, errors, time }) {
 
     // console.log(typeof speed, typeof errors, typeof letters, typeof score, typeof time, '\n')
     return await TypingStat.update({
       'speed': sequelize.fn('array_append', sequelize.col('speed'), speed),
       'score': sequelize.fn('array_append', sequelize.col('score'), score),
-      // 'time': sequelize.fn('array_append', sequelize.col('time'), 0.9),
+      'time': sequelize.fn('array_append', sequelize.col('time'), time),
       'errors': sequelize.fn('array_append', sequelize.col('errors'), errors),
       'letters': sequelize.fn('array_append', sequelize.col('letters'), letters),
-      'frequency': frequency,
     },
       {
         where: { user_id: id }

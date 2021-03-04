@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 //Components
@@ -39,11 +39,20 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const initialData = {
+  frequency: 0,
+  speed: [0],
+  time: [0],
+  score: [0],
 
+}
 
 const TypingStats = (props) => {
   const classes = useStyles();
-  const data = useSelector(state => state.stats.user.typing);
+  const loadedData = useSelector(state => state.stats.user.typing);
+
+  const [isLoaded, setIsLoaded] = useState(false)
+  const [data, setData] = useState(initialData)
 
   const arrSum = function (arr) {
     const num = arr.reduce(function (a, b) {
@@ -66,7 +75,7 @@ const TypingStats = (props) => {
     },
     {
       label: 'Total Samples:',
-      number: data.frequency,
+      number: data.score.length,
     },
     {
       label: 'Top Speed (WPM):',
@@ -82,11 +91,16 @@ const TypingStats = (props) => {
     },
   ]
 
-  return data && (
+  useEffect(() => {
+    setData(loadedData, setIsLoaded(true))
+
+  }, [loadedData])
+
+  return isLoaded && (
     <div className={classes.root}>
       <div className={classes.statTable}>
-        {statTable.map((stat) => (
-          <div key={stat} className={classes.statTable_container}>
+        {statTable.map((stat, idx) => (
+          <div key={idx} className={classes.statTable_container}>
             <Typography variant='subtitle2' className={classes.statTable_label}>{stat.label}</Typography>
             <Typography variant='subtitle1' className={classes.statTable_number}>{stat.number}</Typography>
           </div>

@@ -62,7 +62,8 @@ const useStyles = makeStyles((props) => ({
   },
   wordCount: {
     position: 'relative',
-    top: '4rem',
+    bottom: '5rem',
+    // top: '4rem',
   },
   indicator_container: {
     display: 'flex',

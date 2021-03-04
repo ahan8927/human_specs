@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 //Components
 import PracticeField from './TypingField';
@@ -27,17 +27,24 @@ const initialSettings = {
 
 }
 
-const Typing = (props) => {
+const TypingRoot = (props) => {
   const user = useSelector(state => state.session.user)
+
+  const [isLoaded, setIsLoaded] = useState(false)
   const [settings, setSettings] = useState(initialSettings)
   const classes = useStyles();
-  return user && (
+
+  useEffect(() => {
+    setIsLoaded(true)
+  }, [user])
+
+  return isLoaded && (
     <div className={classes.root}>
       <section className={classes.practice_layout}>
-        <PracticeField id={user.id} settings={settings} />
+        <PracticeField id={user ? user.id : user} settings={settings} />
       </section>
     </div>
   )
 }
 
-export default Typing
+export default TypingRoot

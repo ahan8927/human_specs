@@ -53,8 +53,8 @@ const Profile = (props) => {
   return (
     <>
       <div className={classes.root}>
-        {panels.map((panel) => (
-          <Accordion key={panel.id} expanded={expanded === panel.id} onChange={handleChange(panel.id)}>
+        {panels.map((panel, idx) => (
+          <Accordion key={idx} expanded={expanded === panel.id} onChange={handleChange(panel.id)}>
             <AccordionSummary
               expandIcon={<ExpandMoreIcon />}
               aria-controls={`${panel.id}-content`}
