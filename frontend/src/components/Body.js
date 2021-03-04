@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 import Typing from './Body/Typing/TypingRoot';
 import Profile from './Body/Profile/Profile';
 import HighScores from './Body/HighScores';
-import Reaction from './Body/Reaction/Reaction';
+import Reaction from './Body/Reaction/ReactionRoot';
 
 const PrivateRoute = props => {
   const isLoggedIn = useSelector(state => state.session ? true : false);

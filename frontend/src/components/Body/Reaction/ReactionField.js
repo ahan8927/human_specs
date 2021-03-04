@@ -1,19 +1,35 @@
 import React, { useEffect, useRef, useState } from 'react';
 
 //MUI
-import { makeStyles } from '@material-ui/core';
+import { Button, makeStyles, Paper, Typography } from '@material-ui/core';
 
 const useStyles = makeStyles((props) => ({
   root: {
     display: 'flex',
+    flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
+
+    width: '60rem',
+    height: '30rem',
+    borderRadius: '1rem',
+  },
+  results: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+
+    borderRadius: '1rem',
 
     minwidth: '60rem',
     maxWidth: '80rem',
     padding: '2rem',
-  },
+  }
 }));
+const Green = '#C8323E';
+const Red = '#4C8000';
+const Default = '#8C5ED7';
 
 const ReactionField = (props) => {
   const classes = useStyles();
@@ -22,49 +38,72 @@ const ReactionField = (props) => {
   const [timeInterval, setTimeInterval] = useState(0);
   const [changed, setChanged] = useState(false);
   const [started, setStarted] = useState(false);
+  const [clicked, setClicked] = useState(false);
+  const [finished, setFinished] = useState(false);
 
-  const [data, setData] = useState([])
-  const time = useRef({ time: 0 })
+  const count = useRef({
+    time: 0,
+    attempts: 0,
+    data: [],
+  })
 
   const randomNumber = () => {
-
+    return Math.random() * (6000 - 500) + 500;
   }
 
   const handleChange = () => {
+    console.log('changed!')
+    setChanged(true)
     const startTime = Date.now();
 
     setTimeInterval(setInterval(function () {
       const elapsedTime = Date.now() - startTime;
-      time.current.time = (elapsedTime / 1000).toFixed(3);
+      count.current.time = (elapsedTime / 1000).toFixed(3);
     }, 100))
   }
 
   const handleRestart = () => {
-
+    if (count.current.attempts === props.settings.attempts) {
+      setFinished(true)
+    }
+    count.current.attempts = 0;
+    setStarted(false)
+    setChanged(false)
   }
 
   const handleClick = e => {
+    const wait = randomNumber()
     if (started) {
       if (changed) {
+        console.log('well done')
+
+        clearInterval(timeInterval)
+        // count.current.data.append(count.current.time)
         setTimeout(function () {
           handleRestart()
         }, 2000);
       } else {
-        setIsError(true)
+        console.log('False Start!')
+
+        clearInterval(timeInterval)
         setTimeout(function () {
           handleRestart()
         }, 2000);
       }
 
     } else {
-      setTimeInterval(setTimeout(function () {
+      console.log('Begin!', wait)
+      setStarted(true)
+      setTimeout(function () {
         handleChange();
-      }, randomNumber()))
+      }, wait)
     }
   }
 
   const handleSubmit = () => {
-    dispatch(statActions.updateUserStats(data, statActions.SET_TYPING))
+    // dispatch(statActions.updateUserStats(data, statActions.SET_TYPING))
+    console.log('Submitted!', count.current.data)
+    count.current.data = [];
   }
 
 
@@ -75,17 +114,27 @@ const ReactionField = (props) => {
     setIsLoaded(true)
   }, [])
 
-  return isLoaded && (
-    <div
-      className={classes.root}
-      style={{ backgroundColor: `${started ? (changed ? '#C8323E' : '#4C8000') : '#8C5ED7'}` }}
+  console.log(`Status... \nstarted: ${started}, changed: ${changed}, data: ${count.current.data}, finished: ${finished}`)
 
-    >
+  return isLoaded && (
+    <>
       {
-        started ? (changed ? '#C8323E' : '#4C8000') : '#8C5ED7'
+        (finished)
+          ? (<Paper className={classes.results}>
+            <Typography>Here are your stats</Typography>
+            <Button onClick={() => handleSubmit()}>Try Again?</Button>
+          </Paper>)
+
+          : (<div
+            className={classes.root}
+            style={{ backgroundColor: `${started ? (changed ? Red : Green) : Default}` }}
+            onClick={() => handleClick()}
+          >
+            {<Typography>{started ? (changed ? ((clicked) ? count.current.time : 'Click!') : 'Wait for Green') : 'Click to start!'}</Typography>}
+          </div>)
       }
-    </div>
-  );
+    </>
+  )
 }
 
 export default ReactionField;
