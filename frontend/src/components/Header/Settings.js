@@ -42,7 +42,7 @@ const Settings = (props) => {
       <DialogContent>
         <DialogContentText>
           {/* BONUS: fillout settings */}
-          To Log In to this website, please enter your email address here.
+          Click Signout to signout.
         </DialogContentText>
       </DialogContent>
       {

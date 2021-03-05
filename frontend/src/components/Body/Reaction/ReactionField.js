@@ -124,13 +124,13 @@ const ReactionField = (props) => {
   }
 
   const handleSubmit = () => {
-    console.log('data submitted!', count.current.data)
-    console.log('User: ', user.id)
     const stats = {
       id: user.id,
       reaction_score: count.current.data,
     }
-    dispatch(statActions.updateUserStats(stats, statActions.SET_REACTION))
+    if (user) {
+      dispatch(statActions.updateUserStats(stats, statActions.SET_REACTION))
+    }
   }
 
 

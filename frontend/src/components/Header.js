@@ -95,7 +95,7 @@ const Header = () => {
       case 'dashboard':
         return <Dashboard getParams={() => getParams()} setParams={(path) => setParams(path)} />
       case 'help':
-        return <Help />
+        return <Help getParams={() => getParams()} />
       default:
         return;
     }
