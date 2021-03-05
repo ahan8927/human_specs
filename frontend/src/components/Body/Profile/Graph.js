@@ -1,20 +1,8 @@
 import React from 'react';
-import { Scatter } from 'react-chartjs-2';
+import { Scatter, Bar } from 'react-chartjs-2';
 
 //MUI
 import { makeStyles } from '@material-ui/core/styles';
-
-const options = {
-  scales: {
-    yAxes: [
-      {
-        ticks: {
-          beginAtZero: false,
-        },
-      },
-    ],
-  },
-}
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -32,47 +20,68 @@ const useStyles = makeStyles((theme) => ({
 export const ScatterGraph = (props) => {
   const classes = useStyles();
 
-  const incomingData = {
-    display: true,
-    datasets: [
-      {
-        label: 'Typing Speed (WPM)',
-        backgroundColor: '#2a9d8f',
-        pointRadius: 10,
-        data: props.speed.map((wpm, index) => {
-          return {
-            x: index,
-            y: wpm,
-          }
-        })
-      }, {
-        label: 'Errors',
-        backgroundColor: '#e76f51',
-        pointRadius: 10,
-        data: props.errors.map((error, index) => {
-          return {
-            x: index,
-            y: error,
-          }
-        })
-      }, {
-        label: 'Number of keys',
-        backgroundColor: '#e9c46a',
-        pointRadius: 10,
-        data: props.letters.map((letter, index) => {
-          return {
-            x: index,
-            y: letter,
-          }
-        })
-      },
-    ]
+  const options = {
+    scales: {
+      yAxes: [
+        {
+          ticks: {
+            beginAtZero: false,
+          },
+        },
+      ],
+    },
   }
 
   return (
     <div className={classes.root}>
       <Scatter
-        data={incomingData}
+        data={props.incomingData}
+        options={{ maintainAspectRatio: false }, options}
+      />
+    </div>
+  )
+}
+
+export const BarGraph = (props) => {
+  const classes = useStyles();
+
+  console.log(props.incomingData)
+
+  // const options = {
+  //   scales: {
+  //     yAxes: [{
+  //       display: true,
+  //       ticks: {
+  //         beginAtZero: true,
+  //       }
+  //     }],
+  //     xAxes: [{
+  //       display: false,
+  //       gridLines: {
+  //         display: false,
+  //         drawBorder: false
+  //       }
+  //     }]
+  //   },
+  //   legend: {
+  //     display: false
+  //   },
+  // }
+
+  const options = {
+    scales: {
+      xAxes: [{
+        gridLines: {
+          offsetGridLines: true
+        }
+      }]
+    }
+  };
+
+  return (
+    <div className={classes.root}>
+      <Bar
+        data={props.incomingData}
         options={{ maintainAspectRatio: false }, options}
       />
     </div>

@@ -14,7 +14,7 @@ module.exports = {
     */
     return queryInterface.bulkInsert('Reactions', [{
       user_id: 1,
-      reaction_data: [1, 1, 0.523, 0.456, 0.344]
+      reaction_data: [0.523, 0.456, 0.344, 0.267, 0.213]
     }], {});
   },
 

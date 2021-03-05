@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 
 //Components
 import Typing from './Typing';
+import Reaction from './Reaction';
 
 //MUI
 import { makeStyles } from '@material-ui/core/styles';
@@ -31,14 +32,16 @@ const useStyles = makeStyles((theme) => ({
 
 const panels = [
   {
-    'id': 'typing',
-    'heading': 'Typing Stats',
-    'secondaryHeading': 'view your typing stats',
+    id: 'typing',
+    heading: 'Typing Stats',
+    secondaryHeading: 'view your typing stats',
+    component: <Typing />,
   },
   {
-    'id': 'reaction',
-    'heading': 'Reaction Stats',
-    'secondaryHeading': 'view your reaction stats',
+    id: 'reaction',
+    heading: 'Reaction Stats',
+    secondaryHeading: 'view your reaction stats',
+    component: <Reaction />,
   },
 ]
 
@@ -64,7 +67,7 @@ const Profile = (props) => {
               <Typography color='primary' className={classes.secondaryHeading}>{panel.secondaryHeading}</Typography>
             </AccordionSummary>
             <AccordionDetails>
-              {<Typing />}
+              {panel.component}
             </AccordionDetails>
           </Accordion>
         ))}
