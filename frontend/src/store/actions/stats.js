@@ -15,8 +15,9 @@ export const loadUserStats = (id) => async dispatch => {
     const res = await fetch(`api/users/stats/${id}`);
 
     if (res.ok) {
-      dispatch(setUserStats(res.data, SET_TYPING))
-      // return res.data.typing;
+      console.log('Incoming data: ', res.data)
+      dispatch(setUserStats(res.data.typing, SET_TYPING))
+      dispatch(setUserStats(res.data.reaction, SET_REACTION))
     } else {
       return false;
     }
@@ -26,20 +27,13 @@ export const loadUserStats = (id) => async dispatch => {
 }
 
 export const updateUserStats = (stats, test) => async dispatch => {
-  const { id, speed, score, errors, letters, time, frequency } = stats;
   try {
     const res = await fetch(`${test}`, {
       method: 'POST',
-      body: JSON.stringify({
-        id: id,
-        speed: speed,
-        errors: errors,
-        score: score,
-        letters: letters,
-        time: time,
-        frequency: frequency
-      }),
+      body: JSON.stringify(stats),
     });
+
+    //TODO: use current user instead of 1.
     (res.ok) && dispatch(loadUserStats(1))
   } catch (e) {
     console.error(e)

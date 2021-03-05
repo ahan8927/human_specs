@@ -107,7 +107,6 @@ const Header = () => {
 
         {/* LEFT */}
         <div className={'navBar_left'}>
-          {/* TODO: history.push('/home') */}
           <Button >
             <Typography color='primary' >human_{(params) ? params : 'specs'}</Typography>
           </Button>

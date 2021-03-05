@@ -1,4 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
+import * as statActions from '../../../store/actions/stats';
+import { useDispatch, useSelector } from 'react-redux';
 
 //MUI
 import { Button, makeStyles, Paper, Typography } from '@material-ui/core';
@@ -33,7 +35,9 @@ const Default = 'rgba(140, 94, 215, .5)';
 
 const ReactionField = (props) => {
   const classes = useStyles();
+  const dispatch = useDispatch();
 
+  const user = useSelector(state => state.session.user)
   const [isLoaded, setIsLoaded] = useState(false);
   const [timeInterval, setTimeInterval] = useState(0);
   const [changed, setChanged] = useState(false);
@@ -43,7 +47,6 @@ const ReactionField = (props) => {
 
   const count = useRef({
     time: 0,
-    attempts: 0,
     data: 0,
   })
 
@@ -63,9 +66,6 @@ const ReactionField = (props) => {
   }
 
   const handleRestart = () => {
-    if (count.current.attempts === props.settings.attempts) {
-      setFinished(true)
-    }
     count.current.attempts = 0;
     setStarted(false)
     setChanged(false)
@@ -78,7 +78,6 @@ const ReactionField = (props) => {
       if (changed) {
         clearInterval(timeInterval)
 
-        console.log('well done', count.current.time)
         count.current.data = count.current.time >= 1000 ? 1000 : count.current.time
         setClicked(true)
 
@@ -86,7 +85,6 @@ const ReactionField = (props) => {
           handleRestart()
         }, 2000);
       } else {
-        console.log('False Start!')
         clearInterval(timeInterval)
         setClicked(true)
         setTimeInterval(null)
@@ -100,18 +98,12 @@ const ReactionField = (props) => {
 
     } else {
       const wait = randomNumber()
-      console.log('Wait for the Green...', wait)
       setStarted(true)
 
       setTimeout(function () {
         handleChange();
       }, wait)
     }
-  }
-
-  const handleSubmit = () => {
-    console.log('Submitted!', count.current.data)
-    // dispatch(statActions.updateUserStats(data, statActions.SET_TYPING))
   }
 
   const getCount = () => {
@@ -131,6 +123,16 @@ const ReactionField = (props) => {
     return 'Click to begin.'
   }
 
+  const handleSubmit = () => {
+    console.log('data submitted!', count.current.data)
+    console.log('User: ', user.id)
+    const stats = {
+      id: user.id,
+      reaction_score: count.current.data,
+    }
+    dispatch(statActions.updateUserStats(stats, statActions.SET_REACTION))
+  }
+
 
 
 
@@ -139,26 +141,18 @@ const ReactionField = (props) => {
 
   useEffect(() => {
     setIsLoaded(true)
-  }, [])
-
-  console.log(`Status... \nstarted: ${started}, changed: ${changed}, data: ${count.current.data}, finished: ${finished}`)
+  }, [user])
 
   return isLoaded && (
     <>
       {
-        (finished)
-          ? (<Paper className={classes.results}>
-            <Typography>Here are your stats</Typography>
-            <Button onMouseDown={() => handleSubmit()}>Try Again?</Button>
-          </Paper>)
-
-          : (<div
-            className={classes.root}
-            style={{ backgroundColor: `${started ? (changed ? Red : Green) : Default}` }}
-            onClick={() => handleClick()}
-          >
-            {<Typography>{handleDisplay()}</Typography>}
-          </div>)
+        <div
+          className={classes.root}
+          style={{ backgroundColor: `${started ? (changed ? Red : Green) : Default}` }}
+          onClick={() => handleClick()}
+        >
+          {<Typography>{handleDisplay()}</Typography>}
+        </div>
       }
     </>
   )

@@ -4,7 +4,7 @@ const asyncHandler = require("express-async-handler");
 
 const { handleValidationErrors } = require("../../utils/validation");
 const { setTokenCookie, requireAuth } = require("../../utils/auth");
-const { User, TypingStat } = require("../../db/models");
+const { User, TypingStat, Reaction } = require("../../db/models");
 
 const router = express.Router();
 
@@ -49,9 +49,9 @@ router.get(
   asyncHandler(async (req, res) => {
     const id = req.params.id
     const typing = await TypingStat.getStats(id);
-    //const reaction = await ReactionStat.getStats(id);
+    const reaction = await Reaction.getStats(id);
 
-    return res.json({ typing: typing.dataValues, });
+    return res.json({ typing: typing.dataValues, reaction: reaction.reaction_data });
   })
 )
 

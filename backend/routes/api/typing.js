@@ -9,7 +9,7 @@ router.post(
   '',
   asyncHandler(async (req, res) => {
     const { id, speed, errors, letters, score, time } = req.body;
-    console.log('\nAAAAAAAAAAAAAAAAAAAAA', id, speed, errors, letters, score, time)
+    // console.log('\nAAAAAAAAAAAAAAAAAAAAA', id, speed, errors, letters, score, time)
     const stats = await TypingStat.updateStats({ id, speed, score, time, letters, errors, frequency: 1 });
 
     return res.json({
