@@ -119,7 +119,7 @@ Human Specs allows individuals to explore thier strengths and weaknesses and tra
   **DEV TOC**
   [Technologies](Documentation/development.md#technologies) ● [Concepts](Documentation/development.md#concepts) ● [Models](Documentation/development.md#models) ● [Routes](Documentation/development.md#routes) ● [Wireframes](Documentation/development.md#wireframes) ● [Dev Snapshots](Documentation/development.md#development-snapshots)
 
-  This section is kept in a separate document [HERE](Documentation/development.md).
+  This section is kept in a separate document [HERE](Documentation/Development.md).
   It details the technical aspects of this project's development.
   A few sample snapshots are below from the development process.
 
