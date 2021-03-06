@@ -26,6 +26,9 @@ const Footer = (props) => {
         <Typography color='primary'>
           Inspiration taken from <Link href='https://github.com/Miodec'>Miodec</Link>
         </Typography>
+        <Typography color='primary'>
+          and <Link href='https://humanbenchmark.com/'>Human Benchmark</Link>
+        </Typography>
       </div>
     </div>
   )

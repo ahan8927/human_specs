@@ -44,24 +44,20 @@ const Dashboard = (props) => {
       <DialogTitle id="form-dialog-title">DashBoard</DialogTitle>
       <DialogContent>
         <DialogContentText>
-          Please select a tesasdfasdfasdfasdfasfdt.
+          Please select a test below.
         </DialogContentText>
       </DialogContent>
       <DialogActions>
         <Grid container spacing={3}>
           <Grid item xs={6} lg={12}>
-            {/* <Paper className={classes.Paper}> */}
             <Button onClick={() => handleClick('/reaction')} className={classes.Button}>
               Reaction
             </Button>
-            {/* </Paper> */}
           </Grid>
           <Grid item xs={6} lg={12}>
-            {/* <Paper className={classes.Paper}> */}
             <Button onClick={() => handleClick('/typing')} className={classes.Button}>
               Typing
             </Button>
-            {/* </Paper> */}
           </Grid>
         </Grid>
       </DialogActions>
