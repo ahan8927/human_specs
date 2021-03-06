@@ -72,72 +72,48 @@ Each board that an artist creates, they are provided 16 different modifiable bea
 
 >
 > **Users can:**
-> 1. [Create a Sequence](#1-create-a-sequence)
-> 2. [Add Notes](#2-add-notes)
-> 3. [Add a Block](#3-add-blocks)
-> 4. [Play a Saved Beat Pad](#4-play-a-saved-beatpad)
-> 5. [Save / load Board](#5-save-or-load-your-board)
+> 1. [Create an account](#1-create-an-account)
+> 2. [Select a test](#2-select-a-test)
+> 3. [ask for help](#3-ask-for-help)
+> 4. [record your scores](#4-record-your-scores)
+> 5. [visualize progress](#5-view-recorded-scores)
 > 6. [Installation](#installation)
 >
 
-### 1. Create a Sequence
-![Dashboard webpage for Musely](Documentation/creating_sequence_instructional.mp4)
+### 1. Create an Account
 
-- To **create a sequence**, click on a empty beat pad indiciated with the + symbol.
-- Drag notes, and customize the sequence to your interest.
-- To **save**, give your sequence a name and click the save button at the bottom.
-
-<br clear="both">
-<div align="center">
-  <!-- <img src="readme/images/form-program2.png" alt="Program form" width="100%"> -->
-</div>
-
-### 2. Add Notes
-<!-- <img src="readme/images/form-activity.PNG" alt="Activity form" width="50%" align="right"> -->
-
-- To **add a note**, open the library dropdown and drag a desired note to one of boxes above it. You can add multiple notes to a block to subdivide a beat by its parts.
-- To **remove a note**, open the library dropdown and drag the note to delete back into the library to take it off your sequence.
-<br clear="both">
-
-### 3. Add Blocks
-
-- To **add a Block**, click the + button near the top to add a new block
-- To **remove a Block**, click the - button next to the + button to remove the last block.
-
-<!-- <img src="readme/images/activity-row.png" alt="A activity row with stamps indicating fulfilled days." width="100%"> -->
-
-
-### 4. Play a Saved Beat Pad
-<!-- <img src="readme/images/activity-history-3.PNG" alt="Line graph" width="48%" align="right"> -->
-
-- **After designing a desired sequence, give your new sequence a name.** Then click the save button at the bottom.
-- **The Sequence creator will close and you will now be able to click the pad you saved to play.**
-
-<br>
-<div align="center">
-<!-- <img src="readme/images/activity-details-page.PNG" alt="Line graph" width="100%"> -->
-</div>
+- To **create an account**, click the login button at the top.
+- If you dont have an account there will be an option at the bottom of the popup to create one.
+- Fill out the form.
 
 <br clear="both">
 
-### 5. Save or Load Your Board
+### 2. Select a Test
 
-<div align="center">
-<!-- <img src="readme/images/program-header.png" alt="Reward shop button in the top-left corner of program card" title=""Reward shop button in the top-left corner of program card"> -->
-</div>
-<!-- <img src="readme/images/form-reward.PNG" alt="Reward form" align="right" width="50%"> -->
-<br>
-
-- To **Save**, provide your project / board a name. Click save at the top of the board above the 16 beat pads.
-- To **Load**, navigate to your library and click a desired board to open.
+- To **select a test**, click the dashboard icon at the top left of the help button. 
+- You will be provided a suite of tests to choose from. You can select one from there.
 
 <br clear="both">
 
-<div align="center">
-<!-- <img src="readme/images/reward-certificate-2.PNG" alt="Reward certificate for ice cream" width="48%"> -->
-<!-- <img src="readme/images/reward-certificate-3.PNG" alt="Reward certificate for a new bike" width="48%"> -->
-<!-- <img src="readme/images/reward-page.PNG" alt="Reward shop page screenshot" width="100%"> -->
-</div>
+### 3. Ask for Help
+
+- To **ask for help**, click the ? button at the top of the screen.
+- A popup will be shown giving instructions dependant upon the test you wish help with.
+
+<br clear="both">
+
+### 4. Record Your Scores
+
+- **After** completing a test, your scores and results will automatically be sent to the server and saved.
+
+<br clear="both">
+
+### 5. View Recorded Scores
+
+- To **View**, your scores, click your profile at the top. 
+- Once there, click a test to expand and have your results visualized in a graph.
+- **IMPORTANT**... you must be logged in to view your scores.
+<br clear="both">
 
 ## Installation
 
@@ -146,7 +122,7 @@ Each board that an artist creates, they are provided 16 different modifiable bea
 1. Clone this repository.
 
    ```bash
-   git clone https://github.com/alimirakim/persistamp.git
+   git clone https://github.com/ahan8927/human_specs.git
    ```
 
 2. Install dependencies.
@@ -206,10 +182,6 @@ Each board that an artist creates, they are provided 16 different modifiable bea
   It details the technical aspects of this project's development.
   A few sample snapshots are below from the development process.
 
-  <!-- <img src="readme/images/dev-2.PNG" height="200px">
-  <img src="readme/images/dev-10.PNG" height="200px">
-  <img src="readme/images/dev-9.PNG" height="200px"> -->
-
 </div>
 
 ---
@@ -218,7 +190,7 @@ Each board that an artist creates, they are provided 16 different modifiable bea
 
   ## Contact Me
 
-  Thank you for taking a look at Musely.
+  Thank you for taking a look at Human Specs.
   Please feel free to reach out and ask me anything.
 
 </div>
