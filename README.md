@@ -20,11 +20,11 @@ Create and save beats to your own free personal library! 🖍️
 Enjoy a clean aesthetic to boost your creativity and production. 💎
 
 
-![Dashboard webpage for Musely](Documentation/Musely.PNG)
+![Human Specs](Documentation/Human_specs.PNG)
 
 
 ### Try the Demo!
-<a href="https://musely.herokuapp.com/">
+<a href="https://human-spec.herokuapp.com/">
 click here!
 </a>
 
@@ -40,29 +40,25 @@ click here!
 
 </div>
 
-Muse was inspired by Midi Fighter controllers and online beat sequencers that left a void where a much needed mixup could be.
-Muse's minimalistic design is catered towards an intuitive, non intrusive user experience to allow the seemless transfer of ideas without distraction.
-Muse allows music enthusiasts to explore music creation in the browser to its fullest with dynamic libraries and an intuitive beat creation design.
-
-Each board that an artist creates, they are provided 16 different modifiable beat pads to create thier perfect beat sequence mix. Each pad can be customized in many ways ranging from the note signature to bpm and how long each bar is.
+Human Specs was inspired by human benchmark, a testing application much like this one. 
+Human Specs design is attributed to MonkeyType and thier clean, minimalistic, shared styling across the board.
+Human Specs' Design was chosen to allow for minimal distraction to improve concentration to allow for a more valid test.
+Human Specs allows individuals to explore thier strengths and weaknesses and train to improve them.
 
 <br clear="both">
 
 ## Features
 </div>
 
-* Create boards populated with beats saved to a set of 16 buttons.
-* Each button has a sequencer that you can drag notes from a library onto the playboard.
-* Load and save previously created boards to and from your personal library.
-* Set a global BPM.
-* Select a local speed multiplier.
+* Test your skills with the provided set of user skill proficiency tests.
+* Each test has thier instructions, and save results at each completion.
+* Visualize your results and progress as you train to become the best!
 
 ### Future Stretch Goals 
 (in no particular order)
-- **Follower Social System**
-- **Custom Sound libraries**
-- **Share Beat Boards wth friends**
-- **Record your Jam**
+- Add more tests.
+- Customized theme.
+- Share scores with friends option.
 
 <div align="center">
 
@@ -77,7 +73,6 @@ Each board that an artist creates, they are provided 16 different modifiable bea
 > 3. [ask for help](#3-ask-for-help)
 > 4. [record your scores](#4-record-your-scores)
 > 5. [visualize progress](#5-view-recorded-scores)
-> 6. [Installation](#installation)
 >
 
 ### 1. Create an Account
@@ -113,62 +108,8 @@ Each board that an artist creates, they are provided 16 different modifiable bea
 - To **View**, your scores, click your profile at the top. 
 - Once there, click a test to expand and have your results visualized in a graph.
 - **IMPORTANT**... you must be logged in to view your scores.
+  
 <br clear="both">
-
-## Installation
-
-</div>
-
-1. Clone this repository.
-
-   ```bash
-   git clone https://github.com/ahan8927/human_specs.git
-   ```
-
-2. Install dependencies.
-
-      ```bash
-      pipenv install --dev -r dev-requirements.txt && pipenv install -r requirements.txt
-      ```
-
-3. Create a `.env` file based on the example with proper settings for your
-   development environment.
-
-4. Setup your PostgreSQL user, password, and database and make sure it matches your `.env` file.
-
-5. Get into your pipenv, migrate your database, seed your database, and run your flask app.
-
-   ```bash
-   pipenv shell
-   ```
-
-   ```bash
-   flask db upgrade
-   ```
-
-   ```bash
-   python seeder.py
-   ```
-
-   ```bash
-   flask run
-   ```
-
-6. To run the React App in development, `cd` into the `react-app` directory, then run `npm start`.
-
->
-> **IMPORTANT!**
->    If you add any python dependencies to your pipfiles, you'll need to regenerate your requirements.txt before deployment.
->    You can do this by running:
->
->    ```bash
->    pipenv lock -r > requirements.txt
->    ```
->
-> **ALSO IMPORTANT!**
->    psycopg2-binary MUST remain a dev dependency because you can't install it on apline-linux.
->    There is a layer in the Dockerfile that will install psycopg2 (not binary) for us.
->
 
 
 <div align="center">
