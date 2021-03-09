@@ -15,6 +15,13 @@ module.exports = {
     host,
     dialect: 'postgres',
     seederStorage: "sequelize",
+    ssl: true,
+    dialectOptions: {
+      ssl: {
+        require: true, // This will help you. But you will see nwe error
+        rejectUnauthorized: false // This line will fix new error
+      }
+    },
   },
   production: {
     use_env_variable: 'DATABASE_URL',
