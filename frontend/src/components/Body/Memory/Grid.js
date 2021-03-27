@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 
 //MUI
 import { makeStyles } from '@material-ui/core';
@@ -18,26 +18,26 @@ const useStyles = makeStyles((props) => ({
   }
 }));
 
+const generateRand = (min, max) => {
+  return Math.floor(Math.random() * max) + min;
+}
+
+const generateSequence = () => {
+  const arr = []
+
+  // populate array
+  for (let i = 1; i <= 50; i++) {
+    arr.push([generateRand(0, 3), generateRand(0, 3)])
+  }
+
+  console.log(arr)
+}
+
 const Grid = (props) => {
   const classes = useStyles()
 
   const sequence = useRef(generateSequence())
   const [currentCard, setCurrentCard] = useState()
-
-  const generateRand = (min, max) => {
-    return Math.floor(Math.random() * max) + min;
-  }
-
-  const generateSequence = () => {
-    const arr = []
-
-    // populate array
-    for (let i = 1; i <= 50; i++) {
-      arr.push([generateRand(0, 3), generateRand(0, 3)])
-    }
-
-    console.log(arr)
-  }
 
   // play sequence
   const flipCard = () => {
@@ -47,7 +47,7 @@ const Grid = (props) => {
   const playSequence = async () => {
     for (let i = 0; i < props.level; i++) {
 
-      setTimeout(, 1000)
+      setTimeout(flipCard(), 1000)
     }
   }
 

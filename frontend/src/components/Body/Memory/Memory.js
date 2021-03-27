@@ -33,7 +33,7 @@ const Memory = (props) => {
 
   return (
     <div className={classes.root}>
-      <Grid level={level} setLevel={setLevel} sequence={sequence} />
+      <Grid level={level} setLevel={setLevel} />
     </div>
   );
 }
