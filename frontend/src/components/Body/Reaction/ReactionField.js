@@ -13,7 +13,7 @@ const useStyles = makeStyles((props) => ({
     justifyContent: 'center',
 
     width: '60rem',
-    height: '30rem',
+    height: '40rem',
     borderRadius: '1rem',
   },
   results: {
