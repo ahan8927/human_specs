@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 //Components
 import Typing from './Typing';
 import Reaction from './Reaction';
+// import Memory from './Memory';
 
 //MUI
 import { makeStyles } from '@material-ui/core/styles';
@@ -43,6 +44,12 @@ const panels = [
     secondaryHeading: 'view your reaction stats',
     component: <Reaction />,
   },
+  // {
+  //   id: 'memory',
+  //   heading: 'Memory Stats',
+  //   secondaryHeading: 'view your memory stats',
+  //   component: <Memory />,
+  // },
 ]
 
 const Profile = (props) => {

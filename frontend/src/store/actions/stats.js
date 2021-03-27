@@ -4,6 +4,7 @@ import { fetch } from '../csrf';
 //Store Action Types
 export const SET_TYPING = 'api/typing';
 export const SET_REACTION = 'api/reaction';
+export const SET_MEMORY = 'api/memory';
 export const REMOVE_STATS = 'human_specs/stats/REMOVE_STATS';
 
 //Store Actions
@@ -18,6 +19,7 @@ export const loadUserStats = (id) => async dispatch => {
       console.log('Incoming data: ', res.data)
       dispatch(setUserStats(res.data.typing, SET_TYPING))
       dispatch(setUserStats(res.data.reaction, SET_REACTION))
+      // dispatch(setUserStats(res.data.memory, SET_MEMORY))
     } else {
       return false;
     }

@@ -41,9 +41,10 @@ const useStyles = makeStyles((theme) => ({
 
 const initialData = [0]
 
-const TypingStats = (props) => {
+const ReactionStats = (props) => {
   const classes = useStyles();
-  const loadedData = useSelector(state => state.stats.user.reaction);
+  const loadedUser = useSelector(state => state.stats.user);
+  const loadedData = loadedUser ? loadedUser.reaction : []
 
   const [isLoaded, setIsLoaded] = useState(false)
   const [data, setData] = useState(initialData)
@@ -104,4 +105,4 @@ const TypingStats = (props) => {
   )
 }
 
-export default TypingStats
+export default ReactionStats

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 //Components
-import { ScatterGraph } from './Graph';
+import { BarGraph } from './Graph';
 
 //MUI
 import { makeStyles } from '@material-ui/core/styles';
@@ -39,17 +39,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const initialData = {
-  errors: [0],
-  speed: [0],
-  time: [0],
-  score: [0],
-  letters: [0],
-}
+const initialData = [0]
 
-const TypingStats = (props) => {
+const MemoryStats = (props) => {
   const classes = useStyles();
-  const loadedUser = useSelector(state => state.stats.user);
+  const loadedData = useSelector(state => state.stats.user.memory);
 
   const [isLoaded, setIsLoaded] = useState(false)
   const [data, setData] = useState(initialData)
@@ -58,36 +52,21 @@ const TypingStats = (props) => {
     const num = arr.reduce(function (a, b) {
       return a + parseFloat(b)
     }, 0);
-    return num.toFixed(2)
-  }
-
-  const calculateTime = (time) => {
-    const hr = Math.trunc(time * (1 / 60))
-    const min = Math.trunc(((time * (1 / 60)) - hr) * 60)
-    const sec = Math.trunc(((((time * (1 / 60)) - hr) * 60) - min) * 60)
-    return `${(hr < 10) ? 0 : ''}${hr}:${(min < 10) ? 0 : ''}${min}:${(sec < 10) ? 0 : ''}${sec}`
+    return Number(num.toFixed(3))
   }
 
   const statTable = [
     {
-      label: 'Total Time:',
-      number: calculateTime(arrSum(data.time)),
-    },
-    {
       label: 'Total Samples:',
-      number: data.score.length,
+      number: data.length,
     },
     {
-      label: 'Top Speed (WPM):',
-      number: Math.max(...data.speed),
+      label: 'Top Speed (s):',
+      number: Math.min(...data),
     },
     {
-      label: 'Avg Speed (WPM):',
-      number: Math.floor(arrSum(data.speed) / data.speed.length),
-    },
-    {
-      label: 'Top Score',
-      number: Math.max(...data.score),
+      label: 'Avg Speed (s):',
+      number: (arrSum(data) / data.length).toFixed(3),
     },
   ]
 
@@ -95,42 +74,20 @@ const TypingStats = (props) => {
     display: true,
     datasets: [
       {
-        label: 'Typing Speed (WPM)',
+        label: 'Highest Level',
         backgroundColor: '#2a9d8f',
         pointRadius: 10,
-        data: data.speed.map((wpm, index) => {
-          return {
-            x: index,
-            y: wpm,
-          }
-        })
-      }, {
-        label: 'Errors',
-        backgroundColor: '#e76f51',
-        pointRadius: 10,
-        data: data.errors.map((error, index) => {
-          return {
-            x: index,
-            y: error,
-          }
-        })
-      }, {
-        label: 'Number of keys',
-        backgroundColor: '#e9c46a',
-        pointRadius: 10,
-        data: data.letters.map((letter, index) => {
-          return {
-            x: index,
-            y: letter,
-          }
-        })
+        maxBarThickness: 100,
+        data: data,
       },
     ]
   }
 
   useEffect(() => {
-    setData(loadedUser.typing, setIsLoaded(true))
-  }, [loadedUser])
+    setData(loadedData, setIsLoaded(true))
+  }, [loadedData])
+
+  // console.log(incomingData.datasets[0].data, arrSum(data))
 
   return isLoaded && (
     <div className={classes.root}>
@@ -142,9 +99,9 @@ const TypingStats = (props) => {
           </div>
         ))}
       </div>
-      <ScatterGraph incomingData={incomingData} />
+      <BarGraph incomingData={incomingData} />
     </div>
   )
 }
 
-export default TypingStats
+export default MemoryStats
