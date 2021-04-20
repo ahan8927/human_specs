@@ -22,7 +22,7 @@ import blue from '@material-ui/core/colors/blue';
 //       main: '#8C5ED7',
 //     },
 //   },
-// });
+// });;;
 
 const theme = createMuiTheme({
   palette: {
