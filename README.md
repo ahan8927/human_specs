@@ -22,12 +22,6 @@ Enjoy a clean aesthetic to boost your creativity and production. 💎
 
 ![Human Specs](Documentation/Human_specs.PNG)
 
-
-### Try the Demo!
-<a href="https://human-spec.herokuapp.com/">
-click here!
-</a>
-
 </div>
 
 ---
@@ -35,8 +29,6 @@ click here!
 <div align="center">
 
 ## About Human Specs
-
-[https://human-spec.herokuapp.com/ ](https://human-spec.herokuapp.com/)
 
 </div>
 
