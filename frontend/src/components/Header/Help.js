@@ -12,8 +12,6 @@ import { Typography } from '@material-ui/core';
 const Help = (props) => {
   const { setAuthDialog } = useContext(AuthContext);
 
-  console.log(props.getParams())
-
   const renderDialog = (dialog) => {
     switch (dialog) {
       case 'dashboard':
